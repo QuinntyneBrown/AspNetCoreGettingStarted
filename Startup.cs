@@ -19,6 +19,10 @@ namespace DotNetCoreGettingStarted
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediatR(typeof(Startup));
+            
+            services.AddMemoryCache();
+            services.AddTransient<ICache, MemoryCache>();
+
             services.AddSignalR();
             services.AddDataStores();
             services.AddMvc();

@@ -1,4 +1,5 @@
 ﻿using DotNetCoreGettingStarted.Data;
+using DotNetCoreGettingStarted.Features.Core;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -19,17 +20,19 @@ namespace DotNetCoreGettingStarted.Features.Products
 
         public class Handler : IRequestHandler<Request, Response>
         {
-            public Handler(IDataContext dataContext)
+            public Handler(IDataContext dataContext, ICache cache)
             {
                 _dataContext = dataContext;
+                _cache = cache;
             }
 
-            public Task<Response> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(new Response());
+                return await _cache.FromCacheOrServiceAsync(() => Task.FromResult(new Response()), "Products");                
             }
 
             private IDataContext _dataContext;
+            private ICache _cache;
         }
     }
 }
