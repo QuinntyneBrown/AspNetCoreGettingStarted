@@ -1,6 +1,7 @@
 ﻿using DotNetCoreGettingStarted.Data;
 using DotNetCoreGettingStarted.Features.Core;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,10 @@ namespace DotNetCoreGettingStarted.Features.Products
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
+                var products = await _dataContext.Products
+                    .Include(x => x.Category)
+                    .ToListAsync();
+
                 return await _cache.FromCacheOrServiceAsync(() => Task.FromResult(new Response()), "Products");                
             }
 
