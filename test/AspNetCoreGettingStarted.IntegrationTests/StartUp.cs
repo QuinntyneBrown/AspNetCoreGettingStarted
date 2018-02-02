@@ -1,12 +1,13 @@
 ﻿using AspNetCoreGettingStarted.Data;
+using AspNetCoreGettingStarted.IntegrationTests.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetCoreGettingStarted.IntegrationTests
 {
-    public class IntegrationTestsStartUp : Startup
+    public class StartUp : AspNetCoreGettingStarted.Startup
     {
-        public IntegrationTestsStartUp(IConfiguration configuration)
+        public StartUp(IConfiguration configuration)
             : base(configuration) { }
 
         public override void AddDataStores(IServiceCollection services)

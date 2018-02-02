@@ -56,7 +56,7 @@ namespace AspNetCoreGettingStarted
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<EventHub>("eventHub");
+                routes.MapHub<EventHub>("events");
             });
         }
     }

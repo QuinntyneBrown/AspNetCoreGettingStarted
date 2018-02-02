@@ -1,11 +1,8 @@
 ﻿using AspNetCoreGettingStarted.Data;
 using AspNetCoreGettingStarted.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace AspNetCoreGettingStarted.IntegrationTests
+namespace AspNetCoreGettingStarted.IntegrationTests.Data
 {
     public class MockAspNetCoreGettingStartedContext : DbContext, IAspNetCoreGettingStartedContext
     {
@@ -15,7 +12,7 @@ namespace AspNetCoreGettingStarted.IntegrationTests
         public DbSet<User> Users { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)
         {
-            dbContextOptionsBuilder.UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=AspNetCoreGettingStarted;Integrated Security=SSPI;");
+            dbContextOptionsBuilder.UseInMemoryDatabase(databaseName: "AspNetCoreGettingStarted");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

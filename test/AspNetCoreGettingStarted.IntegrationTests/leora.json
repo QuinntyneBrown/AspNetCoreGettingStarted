@@ -2,5 +2,5 @@
   "useMessaging": "false",
   "clientNamespace": "ce",
   "version": "core",
-  "defaulNamespace": "AspNetCoreGettingStarted"
+  "defaulNamespace": "AspNetCoreGettingStarted.IntegrationTests"
 }
