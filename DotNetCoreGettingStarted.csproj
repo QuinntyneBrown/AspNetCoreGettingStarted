@@ -2,9 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>DotNetCoreGettingStarted</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Security\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

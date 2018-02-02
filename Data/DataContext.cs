@@ -9,6 +9,7 @@ namespace DotNetCoreGettingStarted.Data
     {
         DbSet<Category> Categories { get; set; }
         DbSet<Product> Products { get; set; }
+        DbSet<Tenant> Tenants { get; set; }
     }
 
     
@@ -16,12 +17,16 @@ namespace DotNetCoreGettingStarted.Data
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Tenant> Tenants { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder) {
-            dbContextOptionsBuilder.UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=DotNetCoreGettingStarted;Integrated Security=SSPI;");
+            dbContextOptionsBuilder.UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=Foo;Integrated Security=SSPI;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-
+            modelBuilder.Entity<Tenant>(b => {
+                b.Property(t => t.TenantId)
+                .HasDefaultValueSql("newsequentialid()");
+            });
         }
     }
 }

@@ -11,8 +11,8 @@ using System;
 namespace DotNetCoreGettingStarted.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20180202000554_Initial")]
-    partial class Initial
+    [Migration("20180202054716_Foo")]
+    partial class Foo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,11 @@ namespace DotNetCoreGettingStarted.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<Guid?>("TenantId");
+
                     b.HasKey("CategoryId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Categories");
                 });
@@ -42,11 +46,35 @@ namespace DotNetCoreGettingStarted.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<Guid?>("TenantId");
+
                     b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("DotNetCoreGettingStarted.Models.Tenant", b =>
+                {
+                    b.Property<Guid>("TenantId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("newsequentialid()");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("TenantId");
+
+                    b.ToTable("Tenants");
+                });
+
+            modelBuilder.Entity("DotNetCoreGettingStarted.Models.Category", b =>
+                {
+                    b.HasOne("DotNetCoreGettingStarted.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
                 });
 
             modelBuilder.Entity("DotNetCoreGettingStarted.Models.Product", b =>
@@ -54,6 +82,10 @@ namespace DotNetCoreGettingStarted.Migrations
                     b.HasOne("DotNetCoreGettingStarted.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
+
+                    b.HasOne("DotNetCoreGettingStarted.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
                 });
 #pragma warning restore 612, 618
         }
