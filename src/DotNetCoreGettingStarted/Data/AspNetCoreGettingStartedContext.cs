@@ -1,25 +1,25 @@
-﻿using DotNetCoreGettingStarted.Models;
+﻿using AspNetCoreGettingStarted.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DotNetCoreGettingStarted.Data
+namespace AspNetCoreGettingStarted.Data
 {
-    public interface IDataContext
+    public interface IAspNetCoreGettingStartedContext
     {
         DbSet<Category> Categories { get; set; }
         DbSet<Product> Products { get; set; }
         DbSet<Tenant> Tenants { get; set; }
+        DbSet<User> Users { get; set; }
     }
 
     
-    public class DataContext: DbContext, IDataContext
+    public class AspNetCoreGettingStartedContext: DbContext, IAspNetCoreGettingStartedContext
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
+        public DbSet<User> Users { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder) {
-            dbContextOptionsBuilder.UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=Foo;Integrated Security=SSPI;");
+            dbContextOptionsBuilder.UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=AspNetCoreGettingStarted;Integrated Security=SSPI;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {

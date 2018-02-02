@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DotNetCoreGettingStarted.Features.Core
+namespace AspNetCoreGettingStarted.Features.Core
 {
     public class BaseRequest
     {

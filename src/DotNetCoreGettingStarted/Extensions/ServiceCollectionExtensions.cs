@@ -1,15 +1,15 @@
-﻿using DotNetCoreGettingStarted.Data;
+﻿using AspNetCoreGettingStarted.Data;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DotNetCoreGettingStarted
+namespace AspNetCoreGettingStarted
 {
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddDataStores(this IServiceCollection services)
         {
-            services.AddScoped<IDataContext, DataContext>();
+            services.AddScoped<IAspNetCoreGettingStartedContext, AspNetCoreGettingStartedContext>();
             return services;
         }
 

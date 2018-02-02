@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace DotNetCoreGettingStarted.Migrations
+namespace AspNetCoreGettingStarted.Migrations
 {
     public partial class Foo : Migration
     {

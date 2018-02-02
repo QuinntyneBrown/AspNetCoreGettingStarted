@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DotNetCoreGettingStarted.Models
+namespace AspNetCoreGettingStarted.Models
 {
     public class Product
     {

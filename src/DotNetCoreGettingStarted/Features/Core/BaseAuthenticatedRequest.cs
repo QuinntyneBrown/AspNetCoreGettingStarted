@@ -1,4 +1,4 @@
-﻿namespace DotNetCoreGettingStarted.Features.Core
+﻿namespace AspNetCoreGettingStarted.Features.Core
 {
     public class BaseAuthenticatedRequest: BaseRequest
     {

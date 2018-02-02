@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 
-namespace DotNetCoreGettingStarted.Features.Core
+namespace AspNetCoreGettingStarted.Features.Core
 {
     public static class HttpRequestExtensions
     {        

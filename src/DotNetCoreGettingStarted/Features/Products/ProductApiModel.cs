@@ -1,6 +1,6 @@
-﻿using DotNetCoreGettingStarted.Models;
+﻿using AspNetCoreGettingStarted.Models;
 
-namespace DotNetCoreGettingStarted.Features.Products
+namespace AspNetCoreGettingStarted.Features.Products
 {
     public class ProductApiModel
     {

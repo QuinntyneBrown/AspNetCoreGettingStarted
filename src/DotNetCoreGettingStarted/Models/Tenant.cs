@@ -1,5 +1,5 @@
 ﻿using System;
-namespace DotNetCoreGettingStarted.Models
+namespace AspNetCoreGettingStarted.Models
 {
     public class Tenant
     {

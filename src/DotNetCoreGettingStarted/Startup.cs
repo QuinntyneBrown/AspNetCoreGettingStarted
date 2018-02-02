@@ -1,11 +1,12 @@
-﻿using DotNetCoreGettingStarted.Features.Core;
+﻿using AspNetCoreGettingStarted.Features.Core;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DotNetCoreGettingStarted
+namespace AspNetCoreGettingStarted
 {
     public class Startup
     {
@@ -18,6 +19,8 @@ namespace DotNetCoreGettingStarted
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddCors(options =>
             options.AddPolicy("CorsPolicy",
                     builder => builder
@@ -25,16 +28,19 @@ namespace DotNetCoreGettingStarted
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()));
-
+            
             services.AddMediatR(typeof(Startup));
-            services.AddScoped<IMediator, BaseMediator>();
-
+            
             services.AddMemoryCache();
             services.AddTransient<ICache, MemoryCache>();
 
             services.AddSignalR();
-            services.AddDataStores();
+            AddDataStores(services);
             services.AddMvc();
+        }
+
+        public virtual void AddDataStores(IServiceCollection services) {
+            services.AddDataStores();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DotNetCoreGettingStarted.Features.Products
+namespace AspNetCoreGettingStarted.Features.Products
 {
     [Produces("application/json")]
     [Route("api/[controller]")]

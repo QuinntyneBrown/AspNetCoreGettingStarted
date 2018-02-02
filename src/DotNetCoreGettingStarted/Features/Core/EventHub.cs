@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
-namespace DotNetCoreGettingStarted.Features.Core
+namespace AspNetCoreGettingStarted.Features.Core
 {
     public class EventHub: Hub
     {
@@ -15,7 +15,6 @@ namespace DotNetCoreGettingStarted.Features.Core
         {
             return Clients.All.InvokeAsync("Send", message);
         }
-
-        private HttpContext _httpContext;
+        
     }
 }

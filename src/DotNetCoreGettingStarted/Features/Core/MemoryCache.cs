@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using System;
 
-namespace DotNetCoreGettingStarted.Features.Core
+namespace AspNetCoreGettingStarted.Features.Core
 {
     public class MemoryCache : Cache
     {
