@@ -14,12 +14,21 @@ namespace AspNetCoreGettingStarted.Data
     
     public class AspNetCoreGettingStartedContext: DbContext, IAspNetCoreGettingStartedContext
     {
+        public AspNetCoreGettingStartedContext()
+        {
+
+        }
+        public AspNetCoreGettingStartedContext(DbContextOptions options) : base(options)
+        {
+
+        }
+
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<User> Users { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder) {
-            dbContextOptionsBuilder.UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=AspNetCoreGettingStarted;Integrated Security=SSPI;");
+            //dbContextOptionsBuilder.UseSqlServer(@"Data Source=.\SQLEXPRESS;Initial Catalog=AspNetCoreGettingStarted;Integrated Security=SSPI;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {

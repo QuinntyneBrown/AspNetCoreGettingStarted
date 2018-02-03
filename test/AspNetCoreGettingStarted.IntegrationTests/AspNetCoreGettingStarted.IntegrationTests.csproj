@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\DotNetCoreGettingStarted\AspNetCoreGettingStarted.csproj" />
+    <ProjectReference Include="..\..\src\AspNetCoreGettingStarted\AspNetCoreGettingStarted.csproj" />
   </ItemGroup>
 
 </Project>

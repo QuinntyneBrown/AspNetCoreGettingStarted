@@ -1,8 +1,10 @@
-﻿using AspNetCoreGettingStarted.Features.Core;
+﻿using AspNetCoreGettingStarted.Data;
+using AspNetCoreGettingStarted.Features.Core;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,6 +21,13 @@ namespace AspNetCoreGettingStarted
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=AspNetCoreGettingStarted;Integrated Security=SSPI;";
+
+            services.AddDbContextPool<AspNetCoreGettingStartedContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddCors(options =>
