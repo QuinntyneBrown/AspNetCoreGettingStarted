@@ -3,6 +3,7 @@ using AspNetCoreGettingStarted.Features.Core;
 using AspNetCoreGettingStarted.Features.Security;
 using AspNetCoreGettingStarted.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Text;
 
 namespace AspNetCoreGettingStarted
 {
@@ -24,7 +28,9 @@ namespace AspNetCoreGettingStarted
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=AspNetCoreGettingStarted;Integrated Security=SSPI;";
+            var connectionString = Configuration.GetConnectionString("AspNetCoreGettingStartedContext");
+
+            services.Configure<AuthConfiguration>(Configuration.GetSection("AuthConfiguration"));
 
             services.AddDbContextPool<AspNetCoreGettingStartedContext>(options =>
             {
@@ -35,7 +41,14 @@ namespace AspNetCoreGettingStarted
             
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
-            services.Configure<AuthConfiguration>(Configuration.GetSection("AuthConfiguration"));
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = false;
+                    options.TokenValidationParameters = GetTokenValidationParameters();
+                });
 
             services.AddCors(options =>
             options.AddPolicy("CorsPolicy",
@@ -53,6 +66,25 @@ namespace AspNetCoreGettingStarted
             services.AddSignalR();
             AddDataStores(services);
             services.AddMvc();
+        }
+
+        private TokenValidationParameters GetTokenValidationParameters()
+        {
+            AuthConfiguration authConfiguration = Configuration.GetSection("AuthConfiguration").Get<AuthConfiguration>();
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(authConfiguration.JwtKey)),
+                ValidateIssuer = true,
+                ValidIssuer = authConfiguration.JwtIssuer,
+                ValidateAudience = true,
+                ValidAudience = authConfiguration.JwtAudience,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            return tokenValidationParameters;
         }
 
         public virtual void AddDataStores(IServiceCollection services) {
