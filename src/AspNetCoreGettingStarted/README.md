@@ -1,1 +1,1 @@
-# DotNetCoreGettingStarted
+# AspNetCoreGettingStarted
