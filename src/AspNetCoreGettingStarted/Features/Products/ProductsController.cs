@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreGettingStarted.Features.Products
 {
-    [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class ProductsController : Controller

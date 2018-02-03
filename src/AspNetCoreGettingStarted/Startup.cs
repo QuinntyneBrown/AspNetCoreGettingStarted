@@ -50,17 +50,18 @@ namespace AspNetCoreGettingStarted
                     options.TokenValidationParameters = GetTokenValidationParameters();
                 });
 
-            services.AddCors(options =>
-            options.AddPolicy("CorsPolicy",
-                    builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials()));
+            services.AddCors(options => options.AddPolicy("CorsPolicy", 
+                builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()));
             
             services.AddMediatR(typeof(Startup));
-            
+
+            services.AddScoped<IMediator, AspNetCoreGettingStartedMediator>();
+
             services.AddMemoryCache();
+
             services.AddTransient<ICache, MemoryCache>();
 
             services.AddSignalR();

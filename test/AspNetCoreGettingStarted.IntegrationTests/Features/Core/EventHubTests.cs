@@ -8,12 +8,12 @@ namespace AspNetCoreGettingStarted.IntegrationTests.Features.Core
 {
     public class EventHubTests
     {
-        private readonly ServerFixture<StartUp> _server;
+        private readonly ServerFixture<Startup> _server;
         private readonly HttpClient _client;
 
         public EventHubTests()
         {
-            _server = new ServerFixture<StartUp>();
+            _server = new ServerFixture<Startup>();
 
             _client = new HttpClient();
         }

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Xunit;
 using AspNetCoreGettingStarted.IntegrationTests.Extensions;
 using AspNetCoreGettingStarted.IntegrationTests.Data;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using AspNetCoreGettingStarted.Tests.Utilities;
 
 namespace AspNetCoreGettingStarted.IntegrationTests.Features.Products
 {
@@ -17,7 +20,9 @@ namespace AspNetCoreGettingStarted.IntegrationTests.Features.Products
 
         public GetProductsQueryTests()
         {
-            _server = new TestServer(new WebHostBuilder().UseStartup<StartUp>());
+            _server = new TestServer(new WebHostBuilder()
+                .UseStartup<Startup>()
+                .UseConfiguration(TestHelpers.GetAppSettings()));
 
             _client = _server.CreateClient();
         }
@@ -25,12 +30,6 @@ namespace AspNetCoreGettingStarted.IntegrationTests.Features.Products
         [Fact]
         public async Task CanGetProducts()
         {
-            using (var context = new MockAspNetCoreGettingStartedContext())
-            {
-                context.Products.Add(new Product { ProductId = 1, Name = "" });                
-                context.SaveChanges();
-            }
-
             _client.DefaultRequestHeaders.Add("Tenant", "cbe7af58-306c-439a-a44f-9fee5e80ce52");
 
             var responseMessage = await _client.GetAsync("/api/products");
@@ -39,7 +38,7 @@ namespace AspNetCoreGettingStarted.IntegrationTests.Features.Products
 
             var response = await responseMessage.Content.ReadAsAsync<GetProductsQuery.Response>();
             
-            Assert.Equal(response.Products.Count, 1);
+            Assert.Equal(response.Products.Count, 0);
         }
     }
 }

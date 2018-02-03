@@ -5,15 +5,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetCoreGettingStarted.IntegrationTests
 {
-    public class StartUp : AspNetCoreGettingStarted.Startup
-    {
-        public StartUp(IConfiguration configuration)
-            : base(configuration) { }
+    //public class StartUp : AspNetCoreGettingStarted.Startup
+    //{
+    //    public StartUp(IConfiguration configuration)
+    //        : base(configuration) { }
 
-        public override void AddDataStores(IServiceCollection services)
-        {
-            base.AddDataStores(services);
-            services.AddScoped<IAspNetCoreGettingStartedContext, MockAspNetCoreGettingStartedContext>();
-        }
-    }
+    //    public override void AddDataStores(IServiceCollection services)
+    //    {
+    //        base.AddDataStores(services);
+    //        services.AddScoped<IAspNetCoreGettingStartedContext, MockAspNetCoreGettingStartedContext>();
+    //    }
+    //}
 }
