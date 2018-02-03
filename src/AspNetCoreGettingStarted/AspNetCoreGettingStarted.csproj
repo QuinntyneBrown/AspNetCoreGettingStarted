@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Security\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

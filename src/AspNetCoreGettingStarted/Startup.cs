@@ -1,9 +1,12 @@
 ﻿using AspNetCoreGettingStarted.Data;
 using AspNetCoreGettingStarted.Features.Core;
+using AspNetCoreGettingStarted.Features.Security;
+using AspNetCoreGettingStarted.Models;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +32,10 @@ namespace AspNetCoreGettingStarted
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
+            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+            services.Configure<AuthConfiguration>(Configuration.GetSection("AuthConfiguration"));
 
             services.AddCors(options =>
             options.AddPolicy("CorsPolicy",
@@ -58,6 +65,7 @@ namespace AspNetCoreGettingStarted
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
 
             app.UseCors("CorsPolicy");
 

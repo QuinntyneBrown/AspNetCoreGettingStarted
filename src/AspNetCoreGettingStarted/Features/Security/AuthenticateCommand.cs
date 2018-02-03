@@ -1,0 +1,54 @@
+﻿using AspNetCoreGettingStarted.Data;
+using AspNetCoreGettingStarted.Features.Core;
+using AspNetCoreGettingStarted.Models;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+//https://stackoverflow.com/questions/45805411/asp-net-core-2-0-authentication-middleware
+
+namespace AspNetCoreGettingStarted.Features.Security
+{
+    public class AuthenticateCommand
+    {
+        public class Request: IRequest<Response> {
+            public string Username { get; set; }
+            public string Password { get; set; }
+            public Guid TenantUniqueId { get; set; }
+        }
+
+        public class Response {
+            public bool IsAuthenticated { get; set; }
+        }
+
+        public class Handler : IRequestHandler<Request, Response>
+        {
+            public Handler(IPasswordHasher<User> passwordHasher)
+            {
+                _passwordHasher = passwordHasher;
+            }
+
+            public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
+            {
+                var user = await _context.Users
+                    .Include(x => x.Tenant)
+                    .SingleOrDefaultAsync(x => x.UserName.ToLower() == request.Username.ToLower() && x.Tenant.TenantId == request.TenantUniqueId);
+
+                var result = _passwordHasher.VerifyHashedPassword(user, user.Password, request.Password);
+
+                return new Response()
+                {
+                    IsAuthenticated = result == PasswordVerificationResult.Success
+                };                
+            }
+            
+            protected readonly IAspNetCoreGettingStartedContext _context;
+            protected readonly IPasswordHasher<User> _passwordHasher;
+        }
+    }
+}

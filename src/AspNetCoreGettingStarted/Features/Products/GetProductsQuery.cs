@@ -20,9 +20,9 @@ namespace AspNetCoreGettingStarted.Features.Products
 
         public class Handler : IRequestHandler<Request, Response>
         {
-            public Handler(IAspNetCoreGettingStartedContext dataContext, ICache cache)
+            public Handler(IAspNetCoreGettingStartedContext context, ICache cache)
             {
-                _context = dataContext;
+                _context = context;
                 _cache = cache;
             }
 
