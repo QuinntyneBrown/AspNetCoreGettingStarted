@@ -35,6 +35,7 @@ namespace AspNetCoreGettingStarted.Features.Security
 
                 var claims = new List<Claim>()
                 {
+                    new Claim(JwtRegisteredClaimNames.UniqueName, request.Username),
                     new Claim(JwtRegisteredClaimNames.Sub, request.Username),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, nowDateTimeOffset.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),

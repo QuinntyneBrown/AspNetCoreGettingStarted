@@ -128,7 +128,7 @@ namespace AspNetCoreGettingStarted
                 ValidAudience = authConfiguration.JwtAudience,
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero,
-                NameClaimType = "name"
+                NameClaimType = JwtRegisteredClaimNames.UniqueName
             };
 
             return tokenValidationParameters;
@@ -164,7 +164,6 @@ namespace AspNetCoreGettingStarted
 
             if (env.IsDevelopment())
             {
-                context.Database.EnsureDeleted();
                 DbInitializer.Initialize(context, encryptionService).Wait();
             }
         }

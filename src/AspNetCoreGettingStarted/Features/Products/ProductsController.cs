@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreGettingStarted.Features.Products
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     public class ProductsController : Controller
     {
         public ProductsController(IMediator mediator) {

@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace AspNetCoreGettingStarted.Features.Security
                     .Include(x => x.Tenant)
                     .SingleAsync(x => x.UserName == request.Username);
 
-                claims.Add(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", request.Username));
+                claims.Add(new Claim(JwtRegisteredClaimNames.UniqueName, request.Username));
                 
                 return new Response()
                 {

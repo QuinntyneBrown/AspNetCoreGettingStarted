@@ -13,6 +13,7 @@ namespace AspNetCoreGettingStarted.Features.Security
             _mediator = mediator;
         }
 
+        [Route("signin")]
         [HttpPost]
         public async Task<IActionResult> SignIn([FromBody]SignIn.Request request)
             => Ok(await _mediator.Send(request));

@@ -28,13 +28,15 @@ namespace AspNetCoreGettingStarted.Features.Security
 
         public class Handler : IRequestHandler<Request, Response>
         {
-            public Handler(IEncryptionService encryptionService)
+            public Handler(IEncryptionService encryptionService, IAspNetCoreGettingStartedContext context)
             {
                 _encryptionService = encryptionService;
+                _context = context;
             }
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
+                var users = _context.Users.Include(x => x.Tenant).ToList();
                 var user = await _context.Users
                     .Include(x => x.Tenant)
                     .SingleOrDefaultAsync(x => x.UserName.ToLower() == request.Username.ToLower() && x.Tenant.TenantId == request.TenantUniqueId);
