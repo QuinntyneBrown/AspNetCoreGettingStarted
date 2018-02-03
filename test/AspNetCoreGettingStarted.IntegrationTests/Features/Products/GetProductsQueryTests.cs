@@ -30,7 +30,7 @@ namespace AspNetCoreGettingStarted.IntegrationTests.Features.Products
         [Fact]
         public async Task CanGetProducts()
         {
-            _client.DefaultRequestHeaders.Add("Tenant", "cbe7af58-306c-439a-a44f-9fee5e80ce52");
+            _client.DefaultRequestHeaders.Add("Tenant", "bad9a182-ede0-418d-9588-2d89cfd555bd");
 
             var responseMessage = await _client.GetAsync("/api/products");
 

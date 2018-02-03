@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreGettingStarted.Un
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreGettingStarted", "src\AspNetCoreGettingStarted\AspNetCoreGettingStarted.csproj", "{F9DF622B-EA24-417C-8802-4C9E5FA29140}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreGettingStarted.Tests.Utilities", "tests\AspNetCoreGettingStarted.Tests.Utilities\AspNetCoreGettingStarted.Tests.Utilities.csproj", "{545C222C-BF86-4295-88E2-0EFDC36F887F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreGettingStarted.Tests.Utilities", "test\AspNetCoreGettingStarted.Tests.Utilities\AspNetCoreGettingStarted.Tests.Utilities.csproj", "{CD9FB1E1-CAFD-4E66-97A8-D11B22385E16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +31,10 @@ Global
 		{F9DF622B-EA24-417C-8802-4C9E5FA29140}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9DF622B-EA24-417C-8802-4C9E5FA29140}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9DF622B-EA24-417C-8802-4C9E5FA29140}.Release|Any CPU.Build.0 = Release|Any CPU
-		{545C222C-BF86-4295-88E2-0EFDC36F887F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{545C222C-BF86-4295-88E2-0EFDC36F887F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{545C222C-BF86-4295-88E2-0EFDC36F887F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{545C222C-BF86-4295-88E2-0EFDC36F887F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD9FB1E1-CAFD-4E66-97A8-D11B22385E16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD9FB1E1-CAFD-4E66-97A8-D11B22385E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD9FB1E1-CAFD-4E66-97A8-D11B22385E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD9FB1E1-CAFD-4E66-97A8-D11B22385E16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,7 +42,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CE47DAFA-1CEC-4354-A623-53E4F882EC57} = {1C446484-3C19-4357-90F0-24F5348A24CE}
 		{B16766AF-3B0B-474F-B43C-8755129AB8B2} = {1C446484-3C19-4357-90F0-24F5348A24CE}
-		{545C222C-BF86-4295-88E2-0EFDC36F887F} = {1C446484-3C19-4357-90F0-24F5348A24CE}
+		{CD9FB1E1-CAFD-4E66-97A8-D11B22385E16} = {1C446484-3C19-4357-90F0-24F5348A24CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59643AF4-141E-499E-8C65-3D00CBC96198}

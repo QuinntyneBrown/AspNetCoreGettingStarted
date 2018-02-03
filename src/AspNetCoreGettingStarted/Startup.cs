@@ -15,6 +15,10 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 using Swashbuckle.AspNetCore.Swagger;
+using System.IdentityModel.Tokens.Jwt;
+using System.Collections.Generic;
+using Microsoft.Extensions.Primitives;
+using System.Threading.Tasks;
 
 namespace AspNetCoreGettingStarted
 {
@@ -54,13 +58,39 @@ namespace AspNetCoreGettingStarted
             
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
+            var jwtSecurityTokenHandler = new JwtSecurityTokenHandler
+            {
+                InboundClaimTypeMap = new Dictionary<string, string>()
+            };
+
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     options.RequireHttpsMetadata = false;
-                    options.SaveToken = false;
+                    options.SaveToken = true;
+                    options.SecurityTokenValidators.Clear();
+                    options.SecurityTokenValidators.Add(jwtSecurityTokenHandler);
                     options.TokenValidationParameters = GetTokenValidationParameters();
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            if ((context.Request.Path.Value.StartsWith("/events"))
+                                && context.Request.Query.TryGetValue("token", out StringValues token)
+                            )
+                            {
+                                context.Token = token;
+                            }
+
+                            return Task.CompletedTask;
+                        },
+                        OnAuthenticationFailed = context =>
+                        {
+                            var timeoutException = context.Exception;
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             services.AddCors(options => options.AddPolicy("CorsPolicy", 
@@ -72,6 +102,8 @@ namespace AspNetCoreGettingStarted
             services.AddMediatR(typeof(Startup));
 
             services.AddScoped<IMediator, AspNetCoreGettingStartedMediator>();
+
+            services.AddSingleton<IEncryptionService, EncryptionService>();
 
             services.AddMemoryCache();
 
@@ -95,7 +127,8 @@ namespace AspNetCoreGettingStarted
                 ValidateAudience = true,
                 ValidAudience = authConfiguration.JwtAudience,
                 ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
+                ClockSkew = TimeSpan.Zero,
+                NameClaimType = "name"
             };
 
             return tokenValidationParameters;
@@ -105,7 +138,7 @@ namespace AspNetCoreGettingStarted
             services.AddDataStores();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, AspNetCoreGettingStartedContext context, IEncryptionService encryptionService)
         {
             if (env.IsDevelopment())
             {
@@ -128,6 +161,12 @@ namespace AspNetCoreGettingStarted
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "AspNetCoreGettingStarted API V1");
             });
+
+            if (env.IsDevelopment())
+            {
+                context.Database.EnsureDeleted();
+                DbInitializer.Initialize(context, encryptionService).Wait();
+            }
         }
     }
 }

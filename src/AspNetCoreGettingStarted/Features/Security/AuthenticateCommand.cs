@@ -28,9 +28,9 @@ namespace AspNetCoreGettingStarted.Features.Security
 
         public class Handler : IRequestHandler<Request, Response>
         {
-            public Handler(IPasswordHasher<User> passwordHasher)
+            public Handler(IEncryptionService encryptionService)
             {
-                _passwordHasher = passwordHasher;
+                _encryptionService = encryptionService;
             }
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
@@ -38,17 +38,15 @@ namespace AspNetCoreGettingStarted.Features.Security
                 var user = await _context.Users
                     .Include(x => x.Tenant)
                     .SingleOrDefaultAsync(x => x.UserName.ToLower() == request.Username.ToLower() && x.Tenant.TenantId == request.TenantUniqueId);
-
-                var result = _passwordHasher.VerifyHashedPassword(user, user.Password, request.Password);
-
+                
                 return new Response()
                 {
-                    IsAuthenticated = result == PasswordVerificationResult.Success
+                    IsAuthenticated = _encryptionService.TransformPassword(request.Password) == user.Password
                 };                
             }
             
             protected readonly IAspNetCoreGettingStartedContext _context;
-            protected readonly IPasswordHasher<User> _passwordHasher;
+            protected readonly IEncryptionService _encryptionService;
         }
     }
 }

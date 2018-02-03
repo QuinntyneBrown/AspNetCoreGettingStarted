@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\AspNetCoreGettingStarted\AspNetCoreGettingStarted.csproj" />
-    <ProjectReference Include="..\..\tests\AspNetCoreGettingStarted.Tests.Utilities\AspNetCoreGettingStarted.Tests.Utilities.csproj" />
+    <ProjectReference Include="..\AspNetCoreGettingStarted.Tests.Utilities\AspNetCoreGettingStarted.Tests.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AspNetCoreGettingStarted.Data.DbInitializers;
+using AspNetCoreGettingStarted.Features.Security;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,19 +9,14 @@ namespace AspNetCoreGettingStarted.Data
 {
     public class DbInitializer
     {
-        public async static Task Initialize(AspNetCoreGettingStartedContext context)
-        {
-
-            throw new Exception();
-
+        public async static Task Initialize(AspNetCoreGettingStartedContext context, IEncryptionService encryptionService)
+        {           
             context.Database.EnsureCreated();
 
-            if (context.Users.Any())
-            {
-                return;
-            }
+            TenantDbInitializer.Seed(context);
+            UserDbInitializer.Seed(context, encryptionService);
 
-            await context.SaveChangesAsync();
+            await Task.CompletedTask;
         }
     }
 }
