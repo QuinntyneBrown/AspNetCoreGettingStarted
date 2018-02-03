@@ -14,10 +14,6 @@ namespace AspNetCoreGettingStarted.Data
     
     public class AspNetCoreGettingStartedContext: DbContext, IAspNetCoreGettingStartedContext
     {
-        public AspNetCoreGettingStartedContext()
-        {
-
-        }
         public AspNetCoreGettingStartedContext(DbContextOptions options) : base(options)
         {
 

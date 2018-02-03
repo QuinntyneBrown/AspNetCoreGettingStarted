@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using AspNetCoreGettingStarted.Tests.Utilities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,6 +31,7 @@ namespace AspNetCoreGettingStarted.IntegrationTests
                 .UseKestrel()
                 .UseUrls(url)
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseConfiguration(TestHelpers.GetAppSettings())
                 .Build();
 
             var t = Task.Run(() => _host.Start());
@@ -70,6 +72,5 @@ namespace AspNetCoreGettingStarted.IntegrationTests
                 return ((IPEndPoint)socket.LocalEndPoint).Port;
             }
         }
-
     }
 }

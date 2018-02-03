@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace AspNetCoreGettingStarted
 {
@@ -35,6 +36,18 @@ namespace AspNetCoreGettingStarted
             services.AddDbContextPool<AspNetCoreGettingStartedContext>(options =>
             {
                 options.UseSqlServer(connectionString);
+            });
+
+            services.AddSwaggerGen(options =>
+            {
+                options.DescribeAllEnumsAsStrings();
+                options.SwaggerDoc("v1", new Info
+                {
+                    Title = "AspNetCoreGettingStarted",
+                    Version = "v1",
+                    Description = ".NET Core HTTP API",
+                }
+                );
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -107,6 +120,13 @@ namespace AspNetCoreGettingStarted
             app.UseSignalR(routes =>
             {
                 routes.MapHub<EventHub>("events");
+            });
+
+            app.UseSwagger(); 
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AspNetCoreGettingStarted API V1");
             });
         }
     }
