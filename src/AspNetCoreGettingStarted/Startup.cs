@@ -128,7 +128,7 @@ namespace AspNetCoreGettingStarted
                 ValidAudience = authConfiguration.JwtAudience,
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero,
-                NameClaimType = JwtRegisteredClaimNames.UniqueName
+                NameClaimType = "name"
             };
 
             return tokenValidationParameters;
