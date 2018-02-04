@@ -1,17 +1,9 @@
 import { Component, ChangeDetectionStrategy, Input, Inject } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { RedirectService } from "../shared/services/redirect.service";
-import { Storage } from "../shared/services";
+import { Storage } from "../shared/services/storage.service";
 import { constants } from "../shared/constants";
 import { Subject } from "rxjs/Subject";
-
-function formEncode(data: any) {
-    var pairs = [];
-    for (var name in data) {
-        pairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
-    }
-    return pairs.join('&').replace(/%20/g, '+');
-}
 
 @Component({
     templateUrl: "./login-master-page.component.html",
@@ -40,15 +32,11 @@ export class LoginMasterPageComponent {
 
         this._storage.put({ name: constants.LOGIN_CREDENTIALS_KEY, value: $event.value.rememberMe ? $event.value : null });
 
-        Object.assign($event.value, { "grant_type": "password" });
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
-
-        this._client.post(`${this._baseUrl}/api/users/token`, formEncode($event.value), { headers })
+        this._client.post(`${this._baseUrl}/api/users/signin`, $event.value, { headers })
             .takeUntil(this._ngUnsubscribe)
-            .do(response => this._storage.put({ name: constants.ACCESS_TOKEN_KEY, value: response["access_token"] }))
-            .switchMap(() => this._client.get(`${this._baseUrl}/api/users/current`))
-            .do(response => this._storage.put({ name: constants.CURRENT_USER_KEY, value: response["user"] }))
+            .do(response => this._storage.put({ name: constants.ACCESS_TOKEN_KEY, value: response["accessToken"] }))
             .do(() => this._loginRedirectService.redirectPreLogin())
             .subscribe();
     }

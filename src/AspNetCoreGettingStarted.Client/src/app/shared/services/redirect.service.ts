@@ -7,13 +7,15 @@ export class RedirectService {
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
-        @Inject(constants.DEFAULT_PATH) public defaultPath:string
-    ) { }
+        @Inject(constants.DEFAULT_PATH) public defaultPath: string
+    ) {
+    }
 
     loginUrl: string = "/login";
-    lastPath: string = "";    
-    setLoginUrl(value:string) { this.loginUrl = value; }
-    setDefaultUrl(value:string) { this.defaultPath = value; }
+    lastPath: string;
+    setTenantUrl: string = "/tenants/set";
+    setLoginUrl(value) { this.loginUrl = value; }
+    setDefaultUrl(value) { this.defaultPath = value; }
 
     public redirectToLogin() {
         this._router.navigate([this.loginUrl]);
@@ -26,9 +28,13 @@ export class RedirectService {
         } else {
             this._router.navigate([this.defaultPath]);
         }
-    }  
+    }
 
     public redirectToDefault() {
         this._router.navigate([this.defaultPath]);
-    }    
+    }
+
+    public redirectToSetTenant() {
+        this._router.navigate([this.setTenantUrl]);
+    }
 }

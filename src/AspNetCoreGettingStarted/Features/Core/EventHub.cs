@@ -5,14 +5,10 @@ using System.Threading.Tasks;
 
 namespace AspNetCoreGettingStarted.Features.Core
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class EventHub: Hub
     {
-        private IHttpContextAccessor _httpContextAccessor;
-        public EventHub(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContext = httpContextAccessor.HttpContext;
-        }
+        public EventHub() { }
 
         public override Task OnConnectedAsync()
         {
@@ -22,8 +18,6 @@ namespace AspNetCoreGettingStarted.Features.Core
         public Task Send(string message)
         {
             return Clients.All.InvokeAsync("Send", message);
-        }
-
-        private readonly HttpContext _httpContext;
+        }        
     }
 }

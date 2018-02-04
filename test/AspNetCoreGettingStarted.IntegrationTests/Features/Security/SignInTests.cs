@@ -35,11 +35,11 @@ namespace AspNetCoreGettingStarted.IntegrationTests.Features.Security
             _client.DefaultRequestHeaders.Accept
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            
-            var content = new StringContent(JsonConvert.SerializeObject(new SignIn.Request() {
+            _client.DefaultRequestHeaders.Add("Tenant", "bad9a182-ede0-418d-9588-2d89cfd555bd");
+
+            var content = new StringContent(JsonConvert.SerializeObject(new {
                 UserName = "quinntynebrown@gmail.com",
-                Password = "P@ssw0rd",
-                TenantUniqueId = new Guid("bad9a182-ede0-418d-9588-2d89cfd555bd")
+                Password = "P@ssw0rd"
             }), Encoding.UTF8,"application/json");
             
             var responseMessage = await _client.PostAsync("/api/users/signin",content);

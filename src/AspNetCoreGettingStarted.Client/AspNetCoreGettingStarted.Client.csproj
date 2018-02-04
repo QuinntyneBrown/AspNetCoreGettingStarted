@@ -6,21 +6,45 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="src\app\digital-assets\" />
-    <Folder Include="src\app\products\" />
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="src\app\app-master-page.component.css">
+      <DependentUpon>app-master-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\app-master-page.component.ts">
+      <DependentUpon>app-master-page.component.html</DependentUpon>
+    </None>
     <None Update="src\app\app.component.css">
       <DependentUpon>app.component.html</DependentUpon>
     </None>
     <None Update="src\app\app.component.ts">
       <DependentUpon>app.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\digital-assets\digital-asset-edit-page.component.css">
+      <DependentUpon>digital-asset-edit-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\digital-assets\digital-asset-edit-page.component.ts">
+      <DependentUpon>digital-asset-edit-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\digital-assets\digital-asset-item.component.css">
+      <DependentUpon>digital-asset-item.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\digital-assets\digital-asset-item.component.ts">
+      <DependentUpon>digital-asset-item.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\digital-assets\digital-asset-list-page.component.css">
+      <DependentUpon>digital-asset-list-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\digital-assets\digital-asset-list-page.component.ts">
+      <DependentUpon>digital-asset-list-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\digital-assets\digital-asset-upload-page.component.css">
+      <DependentUpon>digital-asset-upload-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\digital-assets\digital-asset-upload-page.component.ts">
+      <DependentUpon>digital-asset-upload-page.component.html</DependentUpon>
     </None>
     <None Update="src\app\login\login-master-page.component.css">
       <DependentUpon>login-master-page.component.html</DependentUpon>
@@ -33,6 +57,30 @@
     </None>
     <None Update="src\app\login\login.component.ts">
       <DependentUpon>login.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\page-not-found.component.css">
+      <DependentUpon>page-not-found.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\page-not-found.component.ts">
+      <DependentUpon>page-not-found.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\products\product-list-page.component.css">
+      <DependentUpon>product-list-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\products\product-list-page.component.ts">
+      <DependentUpon>product-list-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\shared\components\header.component.css">
+      <DependentUpon>header.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\shared\components\header.component.ts">
+      <DependentUpon>header.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\tenants\set-tenant-master-page.component.css">
+      <DependentUpon>set-tenant-master-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\tenants\set-tenant-master-page.component.ts">
+      <DependentUpon>set-tenant-master-page.component.html</DependentUpon>
     </None>
   </ItemGroup>
 

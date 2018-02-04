@@ -4,8 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-import { SharedModule } from "./shared/shared.module";
+
+import { DigitalAssetsModule } from "./digital-assets/digital-assets.module";
 import { LoginModule } from "./login/login.module";
+import { ProductsModule } from "./products/products.module";
+import { SharedModule } from "./shared/shared.module";
+import { TenantsModule } from "./tenants/tenants.module";
+
 import { PageNotFoundComponent } from "./page-not-found.component";
 
 import "./rxjs-extensions";
@@ -23,8 +28,8 @@ const declarations = [
 ];
 
 const providers = [
-    { provide: constants.BASE_URL, useValue: "" },
-    { provide: constants.DEFAULT_PATH, useValue: "/products" }
+    { provide: constants.BASE_URL, useValue: "http://localhost:26903" },
+    { provide: constants.DEFAULT_PATH, useValue: "/" }
 ];
 
 @NgModule({
@@ -34,7 +39,12 @@ const providers = [
         CommonModule,
         FormsModule,
         RouterModule,
-        SharedModule
+
+        DigitalAssetsModule,
+        LoginModule,
+        ProductsModule,
+        SharedModule,
+        TenantsModule
     ],
     providers,
     declarations,

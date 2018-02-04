@@ -1,6 +1,6 @@
 ﻿export const constants = {
     ACCESS_TOKEN_KEY: "ACCESS TOKEN KEY",
-    STORAGE_KEY: "[Backlog] STORAGE KEY",
+    STORAGE_KEY: "[AspNetCoreGettingStarted] STORAGE KEY",
     TENANT_KEY: "TENANT KEY",
     LOGIN_CREDENTIALS_KEY: "LOGIN CREDENTIALS KEY",
     BASE_URL: "BASE URL",

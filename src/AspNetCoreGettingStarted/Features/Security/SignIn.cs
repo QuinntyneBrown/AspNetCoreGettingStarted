@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AspNetCoreGettingStarted.Features.Core;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,9 @@ namespace AspNetCoreGettingStarted.Features.Security
 {
     public class SignIn
     {
-        public class Request: IRequest<Response> {
+        public class Request: BaseRequest, IRequest<Response> {
             public string UserName { get; set; }
             public string Password { get; set; }
-            public Guid TenantUniqueId { get; set; }
         }
 
         public class Response {
