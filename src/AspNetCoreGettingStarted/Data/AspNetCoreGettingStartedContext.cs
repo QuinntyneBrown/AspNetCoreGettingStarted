@@ -11,6 +11,7 @@ namespace AspNetCoreGettingStarted.Data
         DbSet<Product> Products { get; set; }
         DbSet<Tenant> Tenants { get; set; }
         DbSet<User> Users { get; set; }
+        DbSet<DigitalAsset> DigitalAssets { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 
@@ -26,6 +27,7 @@ namespace AspNetCoreGettingStarted.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<DigitalAsset> DigitalAssets { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder) {
 
         }

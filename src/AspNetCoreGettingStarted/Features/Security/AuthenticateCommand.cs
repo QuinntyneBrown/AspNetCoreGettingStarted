@@ -19,7 +19,7 @@ namespace AspNetCoreGettingStarted.Features.Security
         public class Request: IRequest<Response> {
             public string Username { get; set; }
             public string Password { get; set; }
-            public Guid TenantUniqueId { get; set; }
+            public Guid TenantId { get; set; }
         }
 
         public class Response {
@@ -39,7 +39,7 @@ namespace AspNetCoreGettingStarted.Features.Security
                 var users = _context.Users.Include(x => x.Tenant).ToList();
                 var user = await _context.Users
                     .Include(x => x.Tenant)
-                    .SingleOrDefaultAsync(x => x.UserName.ToLower() == request.Username.ToLower() && x.Tenant.TenantId == request.TenantUniqueId);
+                    .SingleOrDefaultAsync(x => x.UserName.ToLower() == request.Username.ToLower() && x.Tenant.TenantId == request.TenantId);
                 
                 return new Response()
                 {

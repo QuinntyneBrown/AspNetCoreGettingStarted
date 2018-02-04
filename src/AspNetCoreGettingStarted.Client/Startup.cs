@@ -53,9 +53,10 @@ namespace AspNetCoreGettingStarted.Client
             });
 
             app.UseDefaultFiles();
-
-
+            
             app.UseStaticFiles();
+
+            app.UseBrowserLink();
         }
     }
 }

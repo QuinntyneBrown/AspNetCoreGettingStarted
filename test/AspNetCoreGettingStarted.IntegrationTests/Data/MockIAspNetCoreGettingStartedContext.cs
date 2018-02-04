@@ -10,6 +10,7 @@ namespace AspNetCoreGettingStarted.IntegrationTests.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<DigitalAsset> DigitalAssets { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)
         {
             dbContextOptionsBuilder.UseInMemoryDatabase(databaseName: "AspNetCoreGettingStarted");

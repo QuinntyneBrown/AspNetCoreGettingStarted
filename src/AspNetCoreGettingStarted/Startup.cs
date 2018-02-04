@@ -160,10 +160,12 @@ namespace AspNetCoreGettingStarted
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "AspNetCoreGettingStarted API V1");
             });
 
-            if (env.IsDevelopment())
-            {
-                DbInitializer.Initialize(context, encryptionService).Wait();
-            }
+            //if (Configuration["SeedData:Reload"] == "true")
+            //{
+            //    context.Database.EnsureDeleted();
+            //    DbInitializer.Initialize(context, encryptionService).Wait();
+            //}
+            
         }
     }
 }
