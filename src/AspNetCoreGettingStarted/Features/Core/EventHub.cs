@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
 namespace AspNetCoreGettingStarted.Features.Core
 {
+    [Authorize]
     public class EventHub: Hub
     {
         private IHttpContextAccessor _httpContextAccessor;
