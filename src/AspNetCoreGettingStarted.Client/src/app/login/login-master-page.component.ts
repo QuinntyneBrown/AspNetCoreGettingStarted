@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, Inject } from "@angular/core";
-import { Http, Headers } from "@angular/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { RedirectService } from "../shared/services/redirect.service";
-import { Storage } from "../shared/services/storage.service";
+import { Storage } from "../shared/services";
 import { constants } from "../shared/constants";
 import { Subject } from "rxjs/Subject";
 
@@ -20,15 +20,15 @@ function formEncode(data: any) {
 })
 export class LoginMasterPageComponent {
     constructor(
-        private _client: Http,
+        private _client: HttpClient,
         private _loginRedirectService: RedirectService,
         private _storage: Storage,
-        @Inject(constants.BASE_URL) private _baseUrl:string
+        @Inject(constants.BASE_URL) private _baseUrl: string
     ) { }
 
     public ngOnInit() {
         const loginCredentials = this._storage.get({ name: constants.LOGIN_CREDENTIALS_KEY });
-        
+
         if (loginCredentials && loginCredentials.rememberMe) {
             this.username = loginCredentials.username;
             this.password = loginCredentials.password;
@@ -39,12 +39,16 @@ export class LoginMasterPageComponent {
     public tryToLogin($event: { value: { username: string, password: string, rememberMe: boolean } }) {
 
         this._storage.put({ name: constants.LOGIN_CREDENTIALS_KEY, value: $event.value.rememberMe ? $event.value : null });
-        
-        let headers = new Headers();
-        
+
+        Object.assign($event.value, { "grant_type": "password" });
+
+        const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
         this._client.post(`${this._baseUrl}/api/users/token`, formEncode($event.value), { headers })
             .takeUntil(this._ngUnsubscribe)
-            .do((response:any) => this._storage.put({ name: constants.ACCESS_TOKEN_KEY, value: response["accessToken"] }))
+            .do(response => this._storage.put({ name: constants.ACCESS_TOKEN_KEY, value: response["access_token"] }))
+            .switchMap(() => this._client.get(`${this._baseUrl}/api/users/current`))
+            .do(response => this._storage.put({ name: constants.CURRENT_USER_KEY, value: response["user"] }))
             .do(() => this._loginRedirectService.redirectPreLogin())
             .subscribe();
     }
