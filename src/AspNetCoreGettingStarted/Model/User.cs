@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreGettingStarted.Models
+﻿namespace AspNetCoreGettingStarted.Model
 {
     public class User
     {

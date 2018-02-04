@@ -1,23 +1,46 @@
-﻿using System.Threading.Tasks;
+using AspNetCoreGettingStarted.Features.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace AspNetCoreGettingStarted.Features.Products
-{
-    [Produces("application/json")]
-    [Route("api/products")]
+{    
     [Authorize]
+    [Route("api/products")]
     public class ProductsController : Controller
     {
-        public ProductsController(IMediator mediator) {
+        private readonly IMediator _mediator;
+        public ProductsController(IMediator mediator)
+        {
             _mediator = mediator;
+
         }
 
-        [HttpGet]
+        [Route("add")]
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody]AddOrUpdateProductCommand.Request request)
+            => Ok(await _mediator.Send(request));
+        
+        [Route("update")]
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody]AddOrUpdateProductCommand.Request request)
+            => Ok(await _mediator.Send(request));
+        
         [Route("get")]
-        public async Task<ActionResult> Get() => Ok(await _mediator.Send(new GetProductsQuery.Request()));
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Get()
+            => Ok(await _mediator.Send(new GetProductsQuery.Request()));
 
-        private readonly IMediator _mediator;
+        [Route("getById")]
+        [HttpGet]
+        public async Task<IActionResult> GetById([FromQuery]GetProductByIdQuery.Request request)
+            => Ok(await _mediator.Send(request));
+
+        [Route("remove")]
+        [HttpDelete]
+        public async Task<IActionResult> Remove([FromQuery]RemoveProductCommand.Request request)
+            => Ok(await _mediator.Send(request));
     }
 }

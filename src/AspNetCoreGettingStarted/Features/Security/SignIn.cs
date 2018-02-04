@@ -31,7 +31,7 @@ namespace AspNetCoreGettingStarted.Features.Security
                 var authenticateResponse = await _mediator.Send(new AuthenticateCommand.Request() {
                     Username = request.UserName,
                     Password = request.Password,
-                    TenantUniqueId = request.TenantUniqueId
+                    TenantUniqueId = request.TenantId
                 });
 
                 if (authenticateResponse.IsAuthenticated == false)

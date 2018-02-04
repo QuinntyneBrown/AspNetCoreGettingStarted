@@ -27,7 +27,7 @@ namespace AspNetCoreGettingStarted
         public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (request.GetType().IsSubclassOf(typeof(BaseRequest)))
-                (request as BaseRequest).TenantUniqueId = new Guid(_httpContextAccessor.HttpContext.Request.GetHeaderValue("Tenant"));
+                (request as BaseRequest).TenantId = new Guid(_httpContextAccessor.HttpContext.Request.GetHeaderValue("Tenant"));
 
             if (request.GetType().IsSubclassOf(typeof(BaseAuthenticatedRequest)))
                 (request as BaseAuthenticatedRequest).Username = _httpContextAccessor.HttpContext.User.Identity.Name;
@@ -38,7 +38,7 @@ namespace AspNetCoreGettingStarted
         public Task Send(IRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (request.GetType().IsSubclassOf(typeof(BaseRequest)))
-                (request as BaseRequest).TenantUniqueId = new Guid(_httpContextAccessor.HttpContext.Request.GetHeaderValue("Tenant"));
+                (request as BaseRequest).TenantId = new Guid(_httpContextAccessor.HttpContext.Request.GetHeaderValue("Tenant"));
 
             if (request.GetType().IsSubclassOf(typeof(BaseAuthenticatedRequest)))
                 (request as BaseAuthenticatedRequest).Username = _httpContextAccessor.HttpContext.User.Identity.Name;

@@ -1,17 +1,24 @@
-﻿using AspNetCoreGettingStarted.Models;
+using AspNetCoreGettingStarted.Model;
 
 namespace AspNetCoreGettingStarted.Features.Products
 {
     public class ProductApiModel
-    {
-        public int ProductId { get; set; }
+    {        
+        public int? ProductId { get; set; }
         public string Name { get; set; }
+        
+        public static TModel FromProduct<TModel>(Product product) where
+            TModel : ProductApiModel, new()
+        {
+            if (product == null) return null;
 
-        public static ProductApiModel From(Product entity) {
-            var model = new ProductApiModel();
-            model.ProductId = entity.ProductId;
-            model.Name = entity.Name;
+            var model = new TModel();
+            model.ProductId = product.ProductId;
+            model.Name = product.Name;
             return model;
         }
+
+        public static ProductApiModel FromProduct(Product product)
+            => FromProduct<ProductApiModel>(product);
     }
 }

@@ -1,4 +1,4 @@
-﻿using AspNetCoreGettingStarted.Models;
+﻿using AspNetCoreGettingStarted.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

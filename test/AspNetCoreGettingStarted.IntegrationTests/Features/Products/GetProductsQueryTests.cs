@@ -1,5 +1,5 @@
 ﻿using AspNetCoreGettingStarted.Features.Products;
-using AspNetCoreGettingStarted.Models;
+using AspNetCoreGettingStarted.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;

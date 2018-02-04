@@ -1,5 +1,7 @@
-﻿using AspNetCoreGettingStarted.Models;
+﻿using AspNetCoreGettingStarted.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AspNetCoreGettingStarted.Data
 {
@@ -9,6 +11,7 @@ namespace AspNetCoreGettingStarted.Data
         DbSet<Product> Products { get; set; }
         DbSet<Tenant> Tenants { get; set; }
         DbSet<User> Users { get; set; }
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 
     

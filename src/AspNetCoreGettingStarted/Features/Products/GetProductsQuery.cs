@@ -1,43 +1,47 @@
-﻿using AspNetCoreGettingStarted.Data;
-using AspNetCoreGettingStarted.Features.Core;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using AspNetCoreGettingStarted.Data;
+using AspNetCoreGettingStarted.Features.Core;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreGettingStarted.Features.Products
 {
     public class GetProductsQuery
     {
-        public class Request: BaseRequest, IRequest<Response> { }
+        public class Request : BaseRequest, IRequest<Response> { }
 
         public class Response
         {
-            public ICollection<ProductApiModel> Products = new HashSet<ProductApiModel>();
+            public ICollection<ProductApiModel> Products { get; set; } = new HashSet<ProductApiModel>();
         }
 
-        public class Handler : IRequestHandler<Request, Response>
+        public class GetProductsHandler : IRequestHandler<Request, Response>
         {
-            public Handler(IAspNetCoreGettingStartedContext context, ICache cache)
+            public GetProductsHandler(IAspNetCoreGettingStartedContext context, ICache cache)
             {
                 _context = context;
                 _cache = cache;
             }
 
-            public async Task<Response> Handle(Request request, CancellationToken cancellationToken){
-                var products = await _cache.FromCacheOrServiceAsync(() => _context.Products
-                    .Include(x => x.Category)
+            public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
+            {
+                var products = await _context.Products
                     .Include(x => x.Tenant)
-                    .Select(x => ProductApiModel.From(x))
-                    .ToListAsync(), "Products");
+                    .Where(x => x.Tenant.TenantId == request.TenantId)
+                    .ToListAsync();
+                return new Response()
+                {
+                    Products = products.Select(x => ProductApiModel.FromProduct(x)).ToList()
+                };
+            }
 
-                return new Response() { Products = products };
-            } 
-            
-            private IAspNetCoreGettingStartedContext _context;
-            private ICache _cache;
+            private readonly IAspNetCoreGettingStartedContext _context;
+            private readonly ICache _cache;
         }
+
     }
+
 }

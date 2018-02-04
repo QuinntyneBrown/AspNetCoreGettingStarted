@@ -4,6 +4,6 @@ namespace AspNetCoreGettingStarted.Features.Core
 {
     public class BaseRequest
     {
-        public Guid TenantUniqueId { get; set; }
+        public Guid TenantId { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AspNetCoreGettingStarted.Models
+namespace AspNetCoreGettingStarted.Model
 {
     public class Category
     {

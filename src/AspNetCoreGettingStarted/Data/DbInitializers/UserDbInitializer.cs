@@ -1,5 +1,5 @@
 ﻿using AspNetCoreGettingStarted.Features.Security;
-using AspNetCoreGettingStarted.Models;
+using AspNetCoreGettingStarted.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -1,6 +1,6 @@
 ﻿using AspNetCoreGettingStarted.Data;
 using AspNetCoreGettingStarted.Features.Core;
-using AspNetCoreGettingStarted.Models;
+using AspNetCoreGettingStarted.Model;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

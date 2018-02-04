@@ -1,5 +1,5 @@
 ﻿using AspNetCoreGettingStarted.Data;
-using AspNetCoreGettingStarted.Models;
+using AspNetCoreGettingStarted.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreGettingStarted.IntegrationTests.Data

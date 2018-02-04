@@ -1,7 +1,7 @@
 ﻿using AspNetCoreGettingStarted.Data;
 using AspNetCoreGettingStarted.Features.Core;
 using AspNetCoreGettingStarted.Features.Security;
-using AspNetCoreGettingStarted.Models;
+using AspNetCoreGettingStarted.Model;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
