@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="src\app\digital-assets\" />
+    <Folder Include="src\app\products\" />
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="src\app\app.component.css">
+      <DependentUpon>app.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\app.component.ts">
+      <DependentUpon>app.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\login\login-master-page.component.css">
+      <DependentUpon>login-master-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\login\login-master-page.component.ts">
+      <DependentUpon>login-master-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\login\login.component.css">
+      <DependentUpon>login.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\login\login.component.ts">
+      <DependentUpon>login.component.html</DependentUpon>
+    </None>
+  </ItemGroup>
+
+</Project>

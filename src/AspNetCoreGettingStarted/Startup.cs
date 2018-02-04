@@ -19,7 +19,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Authorization;
 namespace AspNetCoreGettingStarted
 {
     public class Startup
@@ -56,13 +56,11 @@ namespace AspNetCoreGettingStarted
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
-            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler
             {
                 InboundClaimTypeMap = new Dictionary<string, string>()
             };
-
+        
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -89,14 +87,14 @@ namespace AspNetCoreGettingStarted
                         {
                             var timeoutException = context.Exception;
                             return Task.CompletedTask;
-                        }
+                        }                        
                     };
                 });
-
+           
             services.AddCors(options => options.AddPolicy("CorsPolicy", 
                 builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader()
+                .AllowAnyHeader()                
                 .AllowCredentials()));
             
             services.AddMediatR(typeof(Startup));
@@ -128,7 +126,7 @@ namespace AspNetCoreGettingStarted
                 ValidAudience = authConfiguration.JwtAudience,
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero,
-                NameClaimType = "name"
+                NameClaimType = JwtRegisteredClaimNames.UniqueName
             };
 
             return tokenValidationParameters;
@@ -139,7 +137,7 @@ namespace AspNetCoreGettingStarted
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, AspNetCoreGettingStartedContext context, IEncryptionService encryptionService)
-        {
+        {            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

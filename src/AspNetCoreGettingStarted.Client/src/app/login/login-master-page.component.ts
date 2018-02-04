@@ -1,0 +1,61 @@
+import { Component, ChangeDetectionStrategy, Input, Inject } from "@angular/core";
+import { Http, Headers } from "@angular/http";
+import { RedirectService } from "../shared/services/redirect.service";
+import { Storage } from "../shared/services/storage.service";
+import { constants } from "../shared/constants";
+import { Subject } from "rxjs/Subject";
+
+function formEncode(data: any) {
+    var pairs = [];
+    for (var name in data) {
+        pairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
+    }
+    return pairs.join('&').replace(/%20/g, '+');
+}
+
+@Component({
+    templateUrl: "./login-master-page.component.html",
+    styleUrls: ["./login-master-page.component.css"],
+    selector: "ce-login-master-page"
+})
+export class LoginMasterPageComponent {
+    constructor(
+        private _client: Http,
+        private _loginRedirectService: RedirectService,
+        private _storage: Storage,
+        @Inject(constants.BASE_URL) private _baseUrl:string
+    ) { }
+
+    public ngOnInit() {
+        const loginCredentials = this._storage.get({ name: constants.LOGIN_CREDENTIALS_KEY });
+        
+        if (loginCredentials && loginCredentials.rememberMe) {
+            this.username = loginCredentials.username;
+            this.password = loginCredentials.password;
+            this.rememberMe = loginCredentials.rememberMe;
+        }
+    }
+
+    public tryToLogin($event: { value: { username: string, password: string, rememberMe: boolean } }) {
+
+        this._storage.put({ name: constants.LOGIN_CREDENTIALS_KEY, value: $event.value.rememberMe ? $event.value : null });
+        
+        let headers = new Headers();
+        
+        this._client.post(`${this._baseUrl}/api/users/token`, formEncode($event.value), { headers })
+            .takeUntil(this._ngUnsubscribe)
+            .do((response:any) => this._storage.put({ name: constants.ACCESS_TOKEN_KEY, value: response["accessToken"] }))
+            .do(() => this._loginRedirectService.redirectPreLogin())
+            .subscribe();
+    }
+
+    public username: string = "";
+
+    public password: string = "";
+
+    public rememberMe: boolean = false;
+
+    private _ngUnsubscribe: Subject<void> = new Subject();
+
+    public ngOnDestroy() { this._ngUnsubscribe.next(); }
+}
