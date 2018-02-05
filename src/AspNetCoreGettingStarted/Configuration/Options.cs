@@ -8,7 +8,7 @@ namespace AspNetCoreGettingStarted.Configuration
     {
         internal static void LoadConfigurationOptions(IServiceCollection services, IConfiguration configuration)
         {            
-            services.Configure<AuthConfiguration>(configuration.GetSection("AuthConfiguration"));
+            services.Configure<AuthenticationSettings>(configuration.GetSection("Authentication"));
             services.Configure<SeedDataSettings>(configuration.GetSection("SeedData"));
         }
     }

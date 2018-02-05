@@ -116,11 +116,11 @@ namespace AspNetCoreGettingStarted
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["AuthConfiguration:JwtKey"])),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Authentication:JwtKey"])),
                 ValidateIssuer = true,
-                ValidIssuer = Configuration["AuthConfiguration:JwtIssuer"],
+                ValidIssuer = Configuration["Authentication:JwtIssuer"],
                 ValidateAudience = true,
-                ValidAudience = Configuration["AuthConfiguration:JwtAudience"],
+                ValidAudience = Configuration["Authentication:JwtAudience"],
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero,
                 NameClaimType = JwtRegisteredClaimNames.UniqueName

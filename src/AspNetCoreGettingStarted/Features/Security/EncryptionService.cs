@@ -18,8 +18,12 @@ namespace AspNetCoreGettingStarted.Features.Security
 
     public class EncryptionService : IEncryptionService
     {
+        private readonly IConfiguration _configuration;
+        private readonly byte[] _salt = Encoding.ASCII.GetBytes("42kbf43w7i8kku234cx56jymj567o560213");
+        private string sharedSecret { get { return _configuration["Authentication:JwtKey"]; } }
+
         public EncryptionService(IConfiguration configuration) {
-            sharedSecret = configuration["AuthConfiguration:JwtKey"];
+            _configuration = configuration;
         }
 
         public string TransformPassword(string password)
@@ -28,10 +32,6 @@ namespace AspNetCoreGettingStarted.Features.Security
             byte[] Hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(password));
             return Convert.ToBase64String(Hash);
         }
-
-        private readonly byte[] _salt = Encoding.ASCII.GetBytes("42kbf43w7i8kku234cx56jymj567o560213");
-
-        private readonly string sharedSecret;
 
         public string EncryptString(string plainText)
         {

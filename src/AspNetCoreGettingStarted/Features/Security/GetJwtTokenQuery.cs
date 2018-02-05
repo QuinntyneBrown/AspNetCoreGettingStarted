@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using AspNetCoreGettingStarted.Configuration;
+using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -24,9 +26,9 @@ namespace AspNetCoreGettingStarted.Features.Security
 
         public class Handler : IRequestHandler<Request, Response>
         {
-            public Handler(IOptions<AuthConfiguration> authConfiguration)
+            public Handler(IConfiguration configuration)
             {
-                _authConfiguration = authConfiguration;
+                _configuration = configuration;
             }
             public Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
@@ -42,12 +44,12 @@ namespace AspNetCoreGettingStarted.Features.Security
                 };
 
                 var jwt = new JwtSecurityToken(
-                    issuer: _authConfiguration.Value.JwtIssuer,
-                    audience: _authConfiguration.Value.JwtAudience,
+                    issuer: _configuration["Authentication:JwtIssuer"],
+                    audience: _configuration["Authentication:JwtAudience"],
                     claims: claims,
                     notBefore: now,
-                    expires: now.AddMinutes(_authConfiguration.Value.ExpirationMinutes),
-                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_authConfiguration.Value.JwtKey)), SecurityAlgorithms.HmacSha256));
+                    expires: now.AddMinutes(Convert.ToInt16(_configuration["Authentication:ExpirationMinutes"])),
+                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Authentication:JwtKey"])), SecurityAlgorithms.HmacSha256));
 
                 return Task.FromResult(new Response()
                 {
@@ -55,7 +57,7 @@ namespace AspNetCoreGettingStarted.Features.Security
                 });
             }
 
-            private readonly IOptions<AuthConfiguration> _authConfiguration;
+            private readonly IConfiguration _configuration;
         }
     }
 }
