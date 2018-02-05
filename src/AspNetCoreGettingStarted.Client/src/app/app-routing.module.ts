@@ -54,7 +54,7 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                children: []
+                component: DigitalAssetUploadPageComponent
             }
         ]
     }

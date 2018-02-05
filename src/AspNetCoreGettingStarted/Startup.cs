@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Http;
 
 namespace AspNetCoreGettingStarted
 {
@@ -37,10 +38,12 @@ namespace AspNetCoreGettingStarted
                 .AllowAnyHeader()
                 .AllowCredentials()));
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            AspNetCoreGettingStarted.Configuration.Services.CreateIoCContainer(services, Configuration);
+            
             AspNetCoreGettingStarted.Configuration.Options.LoadConfigurationOptions(services, Configuration);
 
-            AspNetCoreGettingStarted.Configuration.Services.CreateIoCContainer(services, Configuration);
-
+            
             services.AddDbContextPool<AspNetCoreGettingStartedContext>(options =>
             {
                 options.UseSqlServer(Configuration["ConnectionStrings:AspNetCoreGettingStartedContext"]);
@@ -105,9 +108,7 @@ namespace AspNetCoreGettingStarted
 
             services.AddSignalR();
             AddDataStores(services);
-            services.AddMvc()
-                .AddJsonOptions(options =>
-            options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddMvc();
 
         }
 

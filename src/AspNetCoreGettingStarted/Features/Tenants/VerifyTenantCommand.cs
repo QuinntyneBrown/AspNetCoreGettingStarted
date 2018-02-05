@@ -9,14 +9,14 @@ namespace AspNetCoreGettingStarted.Features.Tenants
 {
     public class VerifyTenantCommand
     {
-        public class Request : IRequest<Response>
+        public class Request : IRequest
         {
-            public Guid UniqueId { get; set; }
+            public Guid TenantId { get; set; }
         }
 
         public class Response { }
 
-        public class Handler : IRequestHandler<Request, Response>
+        public class Handler : IRequestHandler<Request>
         {
             public Handler(IAspNetCoreGettingStartedContext context, ICache cache)
             {
@@ -24,12 +24,12 @@ namespace AspNetCoreGettingStarted.Features.Tenants
                 _cache = cache;
             }
 
-            public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
+            Task IRequestHandler<Request>.Handle(Request request, CancellationToken cancellationToken)
             {
-                if (request.UniqueId != new Guid("bad9a182-ede0-418d-9588-2d89cfd555bd"))
+                if (request.TenantId != new Guid("bad9a182-ede0-418d-9588-2d89cfd555bd"))
                     throw new Exception("Invalid Request");
-                
-                return await Task.FromResult(new Response());
+
+                return Task.CompletedTask;
             }
 
             private readonly IAspNetCoreGettingStartedContext _context;

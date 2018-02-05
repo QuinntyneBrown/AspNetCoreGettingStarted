@@ -1,8 +1,5 @@
 ﻿using AspNetCoreGettingStarted.Data.DbInitializers;
 using AspNetCoreGettingStarted.Features.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AspNetCoreGettingStarted.Data
@@ -14,6 +11,7 @@ namespace AspNetCoreGettingStarted.Data
             context.Database.EnsureCreated();
 
             TenantDbInitializer.Seed(context);
+            CategoryDbInitializer.Seed(context);
             UserDbInitializer.Seed(context, encryptionService);
 
             await Task.CompletedTask;

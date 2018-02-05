@@ -8,7 +8,7 @@ namespace AspNetCoreGettingStarted.Configuration
     {
         internal static void CreateIoCContainer(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
+           
         }
     }
 }

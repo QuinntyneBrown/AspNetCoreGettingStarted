@@ -10,6 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <None Update="src\app\app-master-page.component.css">
       <DependentUpon>app-master-page.component.html</DependentUpon>
     </None>

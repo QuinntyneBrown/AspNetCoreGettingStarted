@@ -22,12 +22,16 @@ export class RedirectService {
     }
 
     public redirectPreLogin() {
+        let path = "";
+
         if (this.lastPath && this.lastPath != this.loginUrl) {
-            this._router.navigate([this.lastPath]);
+            path = this.lastPath;
             this.lastPath = "";
         } else {
-            this._router.navigate([this.defaultPath]);
+            path = this.defaultPath;
         }
+
+        this._router.navigateByUrl(path);
     }
 
     public redirectToDefault() {

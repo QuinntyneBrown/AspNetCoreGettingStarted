@@ -10,7 +10,7 @@ export class TenantsService {
         @Inject(constants.BASE_URL) private _baseUrl:string
     ) { }
 
-    public verify(options: { uniqueId: string }) {
+    public verify(options: { tenantId: string }) {
         return this._httpClient
             .post(`${this._baseUrl}/api/tenants/verify`, options);
     }

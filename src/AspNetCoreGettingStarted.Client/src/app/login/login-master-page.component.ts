@@ -4,6 +4,7 @@ import { RedirectService } from "../shared/services/redirect.service";
 import { Storage } from "../shared/services/storage.service";
 import { constants } from "../shared/constants";
 import { Subject } from "rxjs/Subject";
+import { Client } from "../shared/services/client";
 
 @Component({
     templateUrl: "./login-master-page.component.html",
@@ -32,7 +33,7 @@ export class LoginMasterPageComponent {
 
         this._storage.put({ name: constants.LOGIN_CREDENTIALS_KEY, value: $event.value.rememberMe ? $event.value : null });
 
-        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+        const headers = new HttpHeaders().set('Content-Type', 'application/json'); 
 
         this._client.post(`${this._baseUrl}/api/users/signin`, $event.value, { headers })
             .takeUntil(this._ngUnsubscribe)

@@ -26,10 +26,10 @@ export class SetTenantMasterPageComponent {
     });
 
     public tryToSubmit($event) {
-        const uniqueId = $event.detail.tenant.id;
-        this._tenantsService.verify({ uniqueId })
+        const tenantId = $event.detail.tenant.id;
+        this._tenantsService.verify({ tenantId })
             .do(() => {
-                this._storage.put({ name: constants.TENANT_KEY, value: uniqueId });
+                this._storage.put({ name: constants.TENANT_KEY, value: tenantId });
                 this._redirectService.redirectPreLogin();
             })
             .subscribe();        
