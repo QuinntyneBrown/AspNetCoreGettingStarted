@@ -36,7 +36,6 @@ namespace AspNetCoreGettingStarted.Features.Security
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                var users = _context.Users.Include(x => x.Tenant).ToList();
                 var user = await _context.Users
                     .Include(x => x.Tenant)
                     .SingleOrDefaultAsync(x => x.UserName.ToLower() == request.Username.ToLower() && x.Tenant.TenantId == request.TenantId);

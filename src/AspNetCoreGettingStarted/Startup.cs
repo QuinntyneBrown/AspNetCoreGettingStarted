@@ -1,13 +1,10 @@
 ﻿using AspNetCoreGettingStarted.Data;
 using AspNetCoreGettingStarted.Features.Core;
 using AspNetCoreGettingStarted.Features.Security;
-using AspNetCoreGettingStarted.Model;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +16,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json.Serialization;
+
 namespace AspNetCoreGettingStarted
 {
     public class Startup
@@ -33,15 +31,21 @@ namespace AspNetCoreGettingStarted
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("AspNetCoreGettingStartedContext");
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()));
 
-            services.Configure<AuthConfiguration>(Configuration.GetSection("AuthConfiguration"));
+            AspNetCoreGettingStarted.Configuration.Options.LoadConfigurationOptions(services, Configuration);
+
+            AspNetCoreGettingStarted.Configuration.Services.CreateIoCContainer(services, Configuration);
 
             services.AddDbContextPool<AspNetCoreGettingStartedContext>(options =>
             {
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(Configuration["ConnectionStrings:AspNetCoreGettingStartedContext"]);
             });
-
+      
             services.AddSwaggerGen(options =>
             {
                 options.DescribeAllEnumsAsStrings();
@@ -53,8 +57,6 @@ namespace AspNetCoreGettingStarted
                 }
                 );
             });
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler
             {
@@ -91,12 +93,6 @@ namespace AspNetCoreGettingStarted
                     };
                 });
            
-            services.AddCors(options => options.AddPolicy("CorsPolicy", 
-                builder => builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()                
-                .AllowCredentials()));
-            
             services.AddMediatR(typeof(Startup));
 
             services.AddScoped<IMediator, AspNetCoreGettingStartedMediator>();
@@ -109,21 +105,22 @@ namespace AspNetCoreGettingStarted
 
             services.AddSignalR();
             AddDataStores(services);
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options =>
+            options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
         }
 
         private TokenValidationParameters GetTokenValidationParameters()
-        {
-            AuthConfiguration authConfiguration = Configuration.GetSection("AuthConfiguration").Get<AuthConfiguration>();
-
+        {            
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(authConfiguration.JwtKey)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["AuthConfiguration:JwtKey"])),
                 ValidateIssuer = true,
-                ValidIssuer = authConfiguration.JwtIssuer,
+                ValidIssuer = Configuration["AuthConfiguration:JwtIssuer"],
                 ValidateAudience = true,
-                ValidAudience = authConfiguration.JwtAudience,
+                ValidAudience = Configuration["AuthConfiguration:JwtAudience"],
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero,
                 NameClaimType = JwtRegisteredClaimNames.UniqueName
@@ -142,6 +139,7 @@ namespace AspNetCoreGettingStarted
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseAuthentication();
 
             app.UseCors("CorsPolicy");
@@ -160,12 +158,11 @@ namespace AspNetCoreGettingStarted
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "AspNetCoreGettingStarted API V1");
             });
 
-            //if (Configuration["SeedData:Reload"] == "true")
-            //{
-            //    context.Database.EnsureDeleted();
-            //    DbInitializer.Initialize(context, encryptionService).Wait();
-            //}
-            
+            if(Configuration["SeedData:Reload"] == "True")
+            {
+                context.Database.EnsureDeleted();
+                DbInitializer.Initialize(context,encryptionService).Wait();
+            }            
         }
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
 using System.IO;
@@ -17,8 +18,8 @@ namespace AspNetCoreGettingStarted.Features.Security
 
     public class EncryptionService : IEncryptionService
     {
-        public EncryptionService(IOptions<AuthConfiguration> authConfiguration) {
-            this.sharedSecret = authConfiguration.Value.JwtKey;
+        public EncryptionService(IConfiguration configuration) {
+            sharedSecret = configuration["AuthConfiguration:JwtKey"];
         }
 
         public string TransformPassword(string password)
