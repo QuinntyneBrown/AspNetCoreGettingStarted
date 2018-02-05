@@ -39,8 +39,7 @@ namespace AspNetCoreGettingStarted
                 .AllowCredentials()));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            AspNetCoreGettingStarted.Configuration.Services.CreateIoCContainer(services, Configuration);
-            
+
             AspNetCoreGettingStarted.Configuration.Options.LoadConfigurationOptions(services, Configuration);
 
             

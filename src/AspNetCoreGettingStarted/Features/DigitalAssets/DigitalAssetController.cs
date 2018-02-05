@@ -1,15 +1,9 @@
-using AspNetCoreGettingStarted.Features.DigitalAssets.UploadHandlers;
 using MediatR;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http;
 
 namespace AspNetCoreGettingStarted.Features.DigitalAssets
 {
@@ -64,43 +58,7 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> Upload() {
-
-            if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
-            {
-                return BadRequest($"Expected a multipart request, but got {Request.ContentType}");
-            }
-
-            var boundary = MultipartRequestHelper.GetBoundary(
-                MediaTypeHeaderValue.Parse(Request.ContentType),
-                _defaultFormOptions.MultipartBoundaryLengthLimit);
-            var reader = new MultipartReader(boundary, HttpContext.Request.Body);
-
-            var section = await reader.ReadNextSectionAsync();
-            while (section != null)
-            {
-                ContentDispositionHeaderValue contentDisposition;
-                var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out contentDisposition);
-
-                if (hasContentDispositionHeader)
-                {
-                    if (MultipartRequestHelper.HasFileContentDisposition(contentDisposition))
-                    {
-                        using (var targetStream = new MemoryStream())
-                        {
-                            await section.Body.CopyToAsync(targetStream);
-                            var bytes = StreamHelper.ReadToEnd(targetStream);
-                            //TODO: Save Bytes, filename, mimetype, etc..
-                        }
-                    }
-                }
-
-                section = await reader.ReadNextSectionAsync();
-            }
-
-            return Ok();
-        }
-
-        private static readonly FormOptions _defaultFormOptions = new FormOptions();
+        public async Task<IActionResult> Upload() 
+            => Ok(_mediator.Send(new UploadDigitalAssetsCommand.Request()));        
     }
 }
