@@ -1,11 +1,11 @@
 using AspNetCoreGettingStarted.Data;
 using AspNetCoreGettingStarted.Features.Core;
+using AspNetCoreGettingStarted.Model;
 using MediatR;
 using System.Threading.Tasks;
-using System.Net.Http;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
-using AspNetCoreGettingStarted.Model;
+
 
 namespace AspNetCoreGettingStarted.Features.Products
 {

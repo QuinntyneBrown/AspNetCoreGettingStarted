@@ -23,7 +23,7 @@ export class DigitalAssetListPageComponent {
         @Inject(constants.BASE_URL) private _baseUrl:string) { }
 
     public handleViewClick($event: { digitalAsset: DigitalAsset }) {
-        window.open(`${$event.digitalAsset.url}&oAuthToken=${this.oauthToken}&tenantUniqueId=${this.tenantUniqueId}`, "_blank", "", true);
+        window.open(`${$event.digitalAsset.url}&token=${this.oauthToken}&tenantId=${this.tenantUniqueId}`, "_blank", "", true);
     }
 
     public handleEditClick($event) {
@@ -41,7 +41,10 @@ export class DigitalAssetListPageComponent {
     public ngOnInit() {
         this._digitalAssetsService.get()
             .takeUntil(this._ngUnsubscribe)
-            .subscribe((data) => this.digitalAssets = data.digitalAssets);
+            .subscribe((data) => {
+                alert(JSON.stringify(data.digitalAssets.map((x:any) => x.fileName)));
+                this.digitalAssets = data.digitalAssets;
+            });
     }
 
     private _ngUnsubscribe: Subject<void> = new Subject<void>();

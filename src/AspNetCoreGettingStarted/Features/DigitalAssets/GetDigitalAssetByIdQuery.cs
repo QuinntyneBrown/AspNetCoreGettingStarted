@@ -1,26 +1,28 @@
-using MediatR;
 using AspNetCoreGettingStarted.Data;
 using AspNetCoreGettingStarted.Features.Core;
-using System.Threading.Tasks;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using System;
 using System.Threading;
 
 namespace AspNetCoreGettingStarted.Features.DigitalAssets
 {
     public class GetDigitalAssetByIdQuery
     {
-        public class Request : BaseAuthenticatedRequest, IRequest<Response> { 
-			public int Id { get; set; }
-		}
+        public class Request : BaseAuthenticatedRequest, IRequest<Response>
+        {
+            public Guid DigitalAssetId { get; set; }
+        }
 
         public class Response
         {
-            public DigitalAssetApiModel DigitalAsset { get; set; } 
-		}
+            public DigitalAssetApiModel DigitalAsset { get; set; }
+        }
 
-        public class GetDigitalAssetByIdHandler : IRequestHandler<Request, Response>
+        public class GetDigitalAssetByUniqueIdHandler : IRequestHandler<Request, Response>
         {
-            public GetDigitalAssetByIdHandler(IAspNetCoreGettingStartedContext context, ICache cache)
+            public GetDigitalAssetByUniqueIdHandler(AspNetCoreGettingStartedContext context, ICache cache)
             {
                 _context = context;
                 _cache = cache;
@@ -28,17 +30,16 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                var digitalAsset = await _context.DigitalAssets
-                    .Include(x => x.Tenant)
-                    .SingleAsync(x => x.DigitalAssetId == request.Id && x.Tenant.TenantId == request.TenantId);
-
                 return new Response()
                 {
-                    DigitalAsset = DigitalAssetApiModel.FromDigitalAsset(digitalAsset)
+                    DigitalAsset = DigitalAssetApiModel.FromDigitalAsset(await _cache.FromCacheOrServiceAsync(() => _context
+                    .DigitalAssets
+                    .Include(x => x.Tenant)
+                    .SingleAsync(x => x.DigitalAssetId == request.DigitalAssetId && x.Tenant.TenantId == request.TenantId),DigitalAssetsCacheKeyFactory.GetByUniqueId(request.TenantId,request.DigitalAssetId)))
                 };
             }
 
-            private readonly IAspNetCoreGettingStartedContext _context;
+            private readonly AspNetCoreGettingStartedContext _context;
             private readonly ICache _cache;
         }
     }

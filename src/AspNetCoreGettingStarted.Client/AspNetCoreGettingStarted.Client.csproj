@@ -12,6 +12,15 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\libs\moment.min.js" />
+    <None Include="wwwroot\libs\quill.core.css" />
+    <None Include="wwwroot\libs\quill.min.js" />
+    <None Include="wwwroot\libs\quill.snow.css" />
+    <None Include="wwwroot\libs\rome.min.css" />
+    <None Include="wwwroot\libs\rome.min.js" />
+  </ItemGroup>
   
   <ItemGroup>
     <None Update="src\app\app-master-page.component.css">

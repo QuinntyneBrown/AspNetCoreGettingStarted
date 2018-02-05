@@ -12,6 +12,7 @@ namespace AspNetCoreGettingStarted.Features.Tenants
             _medidator = mediator;
         }
 
+        [HttpPost]
         [AllowAnonymous]
         [Route("verify")]
         public async Task<IActionResult> Verify([FromBody]VerifyTenantCommand.Request request) {

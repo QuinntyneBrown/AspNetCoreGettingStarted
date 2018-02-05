@@ -12,6 +12,9 @@ namespace AspNetCoreGettingStarted.Data
         DbSet<Tenant> Tenants { get; set; }
         DbSet<User> Users { get; set; }
         DbSet<DigitalAsset> DigitalAssets { get; set; }
+        DbSet<Dashboard> Dashboards { get; set; }
+        DbSet<DashboardTile> DashboardTiles { get; set; }
+        DbSet<Tile> Tiles { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 
@@ -28,6 +31,9 @@ namespace AspNetCoreGettingStarted.Data
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<DigitalAsset> DigitalAssets { get; set; }
+        public DbSet<Dashboard> Dashboards { get; set; }
+        public DbSet<DashboardTile> DashboardTiles { get; set; }
+        public DbSet<Tile> Tiles { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder) {
 
         }

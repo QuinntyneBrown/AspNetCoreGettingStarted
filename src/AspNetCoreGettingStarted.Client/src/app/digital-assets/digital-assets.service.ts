@@ -33,6 +33,6 @@ export class DigitalAssetsService {
 
     public remove(options: { digitalAsset: Partial<DigitalAsset>}) {
         return this._httpClient
-            .delete(`${this._baseUrl}/api/digitalassets/remove?id=${options.digitalAsset.id}`);
+            .delete(`${this._baseUrl}/api/digitalassets/remove?id=${options.digitalAsset.digitalAssetId}`);
     }
 }

@@ -1,5 +1,5 @@
 export type DigitalAsset = {
-    id: number;
+    digitalAssetId: string;
     name: string;
     url: string;
     size: string;

@@ -5,7 +5,7 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
 {
     public class DigitalAssetApiModel
     {
-        public int DigitalAssetId { get; set; }
+        public Guid DigitalAssetId { get; set; }
         public string Name { get; set; }
         public string Folder { get; set; }
         public string FileName { get; set; }
@@ -15,10 +15,9 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
         public string Size { get; set; }
         public string ContentType { get; set; }
         public bool? IsSecure { get; set; }
-        public string RelativeUrl { get { return $"api/digitalassets/serve?uniqueid={UniqueId}"; } }
-        public string Url { get { return $"http://kirkbrown.azurewebsites.net/{RelativeUrl}";  } }
+        public string RelativeUrl { get { return $"api/digitalassets/serve?digitalassetid={DigitalAssetId}"; } }
+        public string Url { get { return $"http://localhost:26903/{RelativeUrl}";  } }
         public byte[] Bytes { get; set; } = new byte[0];
-        public Guid? UniqueId { get; set; } = Guid.NewGuid();
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         public string UploadedOn { get; set; }
@@ -28,7 +27,6 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
         {
             var model = new TModel();
             model.DigitalAssetId = digitalAsset.DigitalAssetId;
-            model.Bytes = digitalAsset.Bytes;
             model.Folder = digitalAsset.Folder;
             model.Name = digitalAsset.Name;            
             model.FileName = digitalAsset.FileName;
@@ -36,9 +34,9 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
             model.Created = digitalAsset.Created;
             model.FileModified = digitalAsset.FileModified;
             model.Size = digitalAsset.Size;
+            model.Bytes = digitalAsset.Bytes;
             model.ContentType = digitalAsset.ContentType;
             model.IsSecure = digitalAsset.IsSecure;
-            model.UniqueId = digitalAsset.UniqueId;
             model.CreatedOn = digitalAsset.CreatedOn;
             model.CreatedBy = digitalAsset.CreatedBy;
             model.UploadedOn = string.Format("{0:yyyy-MM-dd HH:mm}", digitalAsset.UploadedOn);

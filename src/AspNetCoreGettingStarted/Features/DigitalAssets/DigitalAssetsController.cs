@@ -1,6 +1,4 @@
 using MediatR;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,17 +46,14 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
 
         [Route("serve")]
         [HttpGet]
-        public async Task<HttpResponseMessage> Serve([FromQuery]GetDigitalAssetByUniqueIdQuery.Request request)
+        public async Task<IActionResult> Serve(GetDigitalAssetByIdQuery.Request request)
         {            
-            var response = await _mediator.Send(request);
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(response.DigitalAsset.Bytes);
-            result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(response.DigitalAsset.ContentType);
-            return result;
+            var response = await _mediator.Send(request);            
+            return File(response.DigitalAsset.Bytes, response.DigitalAsset.ContentType);
         }
 
         [HttpPost("upload")]
         public async Task<IActionResult> Upload() 
-            => Ok(_mediator.Send(new UploadDigitalAssetsCommand.Request()));        
+            => Ok(await _mediator.Send(new UploadDigitalAssetsCommand.Request()));        
     }
 }

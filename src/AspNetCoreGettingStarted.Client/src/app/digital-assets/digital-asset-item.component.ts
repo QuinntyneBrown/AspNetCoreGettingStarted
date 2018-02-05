@@ -9,6 +9,11 @@ declare var moment;
     selector: "ce-digital-asset-item"
 })
 export class DigitalAssetItemComponent { 
+
+    ngOnInit() {
+        alert(JSON.stringify(this.digitalAsset));
+    }
+
     @Output()
     public onEditClick: EventEmitter<any> = new EventEmitter();
 

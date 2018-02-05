@@ -4,8 +4,7 @@ namespace AspNetCoreGettingStarted.Model
 {
     public class DigitalAsset 
     {
-        public int DigitalAssetId { get; set; }
-        public int? TenantId { get; set; }
+        public Guid DigitalAssetId { get; set; }
         public string Name { get; set; }
         public string FileName { get; set; }
         public string Description { get; set; }
@@ -16,9 +15,8 @@ namespace AspNetCoreGettingStarted.Model
         public string CreatedBy { get; set; }
         public bool? IsSecure { get; set; }
         public string ContentType { get; set; }
-        public string RelativePath { get { return $"api/digitalassets/serve?uniqueid={UniqueId}"; } }
+        public string RelativePath { get { return $"api/digitalassets/serve?digitalassetid={DigitalAssetId}"; } }
         public Byte[] Bytes { get; set; } = new byte[0];
-        public Guid? UniqueId { get; set; } = Guid.NewGuid();
         public string Folder { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? LastModifiedOn { get; set; }

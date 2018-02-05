@@ -56,8 +56,8 @@ namespace AspNetCoreGettingStarted
                     Title = "AspNetCoreGettingStarted",
                     Version = "v1",
                     Description = ".NET Core HTTP API",
-                }
-                );
+                });
+                options.CustomSchemaIds(x => x.FullName);
             });
             
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler
@@ -78,7 +78,7 @@ namespace AspNetCoreGettingStarted
                     {
                         OnMessageReceived = context =>
                         {
-                            if ((context.Request.Path.Value.StartsWith("/events"))
+                            if ((context.Request.Path.Value.StartsWith("/events") || (context.Request.Path.Value.StartsWith("/api/digitalassets/serve")))
                                 && context.Request.Query.TryGetValue("token", out StringValues token)
                             )
                             {
@@ -133,7 +133,7 @@ namespace AspNetCoreGettingStarted
             services.AddDataStores();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, AspNetCoreGettingStartedContext context, IEncryptionService encryptionService)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IEncryptionService encryptionService, AspNetCoreGettingStartedContext context)
         {            
             if (env.IsDevelopment())
             {
@@ -156,9 +156,11 @@ namespace AspNetCoreGettingStarted
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "AspNetCoreGettingStarted API V1");
+                
             });
 
-            if(Configuration["SeedData:Reload"] == "True")
+            
+            if (Configuration["SeedData:Reload"] == "True")
             {
                 context.Database.EnsureDeleted();
                 DbInitializer.Initialize(context,encryptionService).Wait();

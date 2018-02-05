@@ -1,9 +1,8 @@
 ﻿using AspNetCoreGettingStarted.Features.Core;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,8 +25,14 @@ namespace AspNetCoreGettingStarted
 
         public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (request.GetType().IsSubclassOf(typeof(BaseRequest)))
+
+            _httpContextAccessor.HttpContext.Request.Query.TryGetValue("tenantId", out StringValues tenant);
+
+            if (request.GetType().IsSubclassOf(typeof(BaseRequest)) && string.IsNullOrEmpty(tenant))
                 (request as BaseRequest).TenantId = new Guid(_httpContextAccessor.HttpContext.Request.GetHeaderValue("Tenant"));
+
+            if (request.GetType().IsSubclassOf(typeof(BaseAuthenticatedRequest)) && !string.IsNullOrEmpty(tenant))
+                (request as BaseRequest).TenantId = new Guid(tenant);
 
             if (request.GetType().IsSubclassOf(typeof(BaseAuthenticatedRequest)))
                 (request as BaseAuthenticatedRequest).Username = _httpContextAccessor.HttpContext.User.Identity.Name;

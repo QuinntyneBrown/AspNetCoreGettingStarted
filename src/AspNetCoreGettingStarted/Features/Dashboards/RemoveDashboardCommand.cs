@@ -1,48 +1,44 @@
 using MediatR;
 using AspNetCoreGettingStarted.Data;
-using System.Threading.Tasks;
+using AspNetCoreGettingStarted.Model;
 using AspNetCoreGettingStarted.Features.Core;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
-using System;
 
-namespace AspNetCoreGettingStarted.Features.DigitalAssets
+namespace AspNetCoreGettingStarted.Features.Dashboards
 {
-    public class RemoveDigitalAssetCommand
+    public class RemoveDashboardCommand
     {
         public class Request : BaseAuthenticatedRequest, IRequest<Response>
         {
-            public Guid Id { get; set; }
+            public int DashboardId { get; set; }
         }
 
         public class Response { }
 
         public class Handler : IRequestHandler<Request, Response>
         {
-            public Handler(IAspNetCoreGettingStartedContext context, ICache cache)
+            public Handler(IAspNetCoreGettingStartedContext context)
             {
                 _context = context;
-                _cache = cache;
             }
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                var digitalAsset = await _context.DigitalAssets
+                var dashboard = await _context.Dashboards
                     .Include(x => x.Tenant)
-                    .SingleAsync(x => x.DigitalAssetId == request.Id && x.Tenant.TenantId == request.TenantId);
+                    .SingleAsync(x=>x.DashboardId == request.DashboardId && x.Tenant.TenantId == request.TenantId);
 
-                digitalAsset.IsDeleted = true;
-
+                _context.Dashboards.Remove(dashboard);
                 await _context.SaveChangesAsync(cancellationToken);
-
-                _cache.Remove(DigitalAssetsCacheKeyFactory.Get(request.TenantId));
-                _cache.Remove(DigitalAssetsCacheKeyFactory.GetByUniqueId(request.TenantId,digitalAsset.DigitalAssetId));
-
                 return new Response();
             }
 
             private readonly IAspNetCoreGettingStartedContext _context;
-            private readonly ICache _cache;
         }
     }
 }

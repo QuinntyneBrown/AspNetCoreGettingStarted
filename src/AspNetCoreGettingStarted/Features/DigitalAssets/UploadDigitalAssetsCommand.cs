@@ -10,6 +10,8 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Http.Features;
 using AspNetCoreGettingStarted.Features.Core;
+using System.Collections.Generic;
+using AspNetCoreGettingStarted.Model;
 
 namespace AspNetCoreGettingStarted.Features.DigitalAssets
 {
@@ -18,7 +20,7 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
         public class Request: BaseAuthenticatedRequest, IRequest<Response> { }
 
         public class Response {
-
+            public ICollection<DigitalAssetApiModel> DigitalAssets { get; set; }
         }
 
         public class Handler : IRequestHandler<Request, Response>
@@ -32,6 +34,8 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
             }
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
+                var digitalAssets = new HashSet<DigitalAssetApiModel>();
+
                 if (!MultipartRequestHelper.IsMultipartContentType(_httpContext.Request.ContentType))
                 {
                     throw new Exception($"Expected a multipart request, but got {_httpContext.Request.ContentType}");
@@ -56,17 +60,27 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
                             {
                                 await section.Body.CopyToAsync(targetStream);
                                 var bytes = StreamHelper.ReadToEnd(targetStream);
-                                //TODO: Save Bytes, filename, mimetype, etc..
+                                var tenant = await _context.Tenants.FindAsync(new Guid(_httpContext.Request.GetHeaderValue("Tenant")));
+                                var digitalAsset = new DigitalAsset();
+                                digitalAsset.Tenant = tenant;
+                                digitalAsset.FileName = $"{contentDisposition.FileName}".Trim(new char[] { '"' }).Replace("&", "and");
+                                digitalAsset.Name = digitalAsset.FileName;
+                                digitalAsset.Bytes = bytes;
+                                digitalAsset.ContentType = section.ContentType;
+                                digitalAsset.UploadedOn = DateTime.UtcNow;
+                                _context.DigitalAssets.Add(digitalAsset);
+                                await _context.SaveChangesAsync(cancellationToken);
+                                digitalAssets.Add(DigitalAssetApiModel.FromDigitalAsset(digitalAsset));
                             }
                         }
                     }
 
                     section = await reader.ReadNextSectionAsync();
                 }
-                
-                return new Response();
-            }
 
+                return new Response() {};
+            }
+            
             private HttpContext _httpContext {  get { return _httpContextAccessor.HttpContext; } }
 
             private IAspNetCoreGettingStartedContext _context;
