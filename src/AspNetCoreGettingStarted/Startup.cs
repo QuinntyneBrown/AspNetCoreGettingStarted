@@ -55,7 +55,7 @@ namespace AspNetCoreGettingStarted
                 {
                     Title = "AspNetCoreGettingStarted",
                     Version = "v1",
-                    Description = ".NET Core HTTP API",
+                    Description = ".NET Core REST API",
                 });
                 options.CustomSchemaIds(x => x.FullName);
             });

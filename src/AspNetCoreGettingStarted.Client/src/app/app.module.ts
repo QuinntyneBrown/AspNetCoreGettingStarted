@@ -28,7 +28,7 @@ const declarations = [
 ];
 
 const providers = [
-    { provide: constants.BASE_URL, useValue: "http://localhost:26903" },
+    { provide: constants.BASE_URL, useValue: "http://aspnetcoregettingstarted.azurewebsites.net" },
     { provide: constants.DEFAULT_PATH, useValue: "/" }
 ];
 
