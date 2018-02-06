@@ -45,7 +45,7 @@ namespace AspNetCoreGettingStarted
             
             services.AddDbContextPool<AspNetCoreGettingStartedContext>(options =>
             {
-                options.UseSqlServer(Configuration["ConnectionStrings:AspNetCoreGettingStartedContext"]);
+                options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]);
             });
       
             services.AddSwaggerGen(options =>
