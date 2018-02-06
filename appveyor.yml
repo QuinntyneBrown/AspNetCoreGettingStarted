@@ -1,0 +1,9 @@
+
+version: 1.0.0.{build}.{branch}
+    
+before_build:
+ - cmd: dotnet restore AspNetCoreGettingStarted.sln
+
+build_script:
+ - cmd: dotnet build AspNetCoreGettingStarted\src\AspNetCoreGettingStarted
+ - cmd: dotnet publish AspNetCoreGettingStarted\src\AspNetCoreGettingStarted
