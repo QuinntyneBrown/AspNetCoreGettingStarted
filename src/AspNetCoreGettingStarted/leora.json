@@ -2,5 +2,6 @@
   "useMessaging": "false",
   "clientNamespace": "ce",
   "version": "core",
-  "defaulNamespace": "AspNetCoreGettingStarted"
+  "rootNamespace": "AspNetCoreGettingStarted",
+  "framework": "AspNetCore"
 }

@@ -1,11 +1,11 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace AspNetCoreGettingStarted.Features.Security
 {
-    [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/users")]
     public class UsersController: Controller
     {
         public UsersController(IMediator mediator)
@@ -13,6 +13,13 @@ namespace AspNetCoreGettingStarted.Features.Security
             _mediator = mediator;
         }
 
+        [Authorize]
+        [Route("current")]
+        [HttpGet]
+        public async Task<IActionResult> Current()
+            => Ok(await _mediator.Send(new GetCurrentUserQuery.Request()));
+
+        [AllowAnonymous]
         [Route("signin")]
         [HttpPost]
         public async Task<IActionResult> SignIn([FromBody]SignIn.Request request)

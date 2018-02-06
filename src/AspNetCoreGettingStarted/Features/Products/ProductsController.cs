@@ -28,7 +28,6 @@ namespace AspNetCoreGettingStarted.Features.Products
             => Ok(await _mediator.Send(request));
         
         [Route("get")]
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get()
             => Ok(await _mediator.Send(new GetProductsQuery.Request()));
