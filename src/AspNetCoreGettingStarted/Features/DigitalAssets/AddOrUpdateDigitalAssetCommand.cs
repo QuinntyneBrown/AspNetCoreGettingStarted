@@ -12,7 +12,7 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
 {
     public class AddOrUpdateDigitalAssetCommand
     {
-        public class Request : IRequest<Response>
+        public class Request : BaseAuthenticatedRequest, IRequest<Response>
         {
             public DigitalAssetApiModel DigitalAsset { get; set; }
         }
@@ -35,7 +35,7 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
                 entity.Name = request.DigitalAsset.Name;
                 entity.Folder = request.DigitalAsset.Folder;
                 await _context.SaveChangesAsync();
-
+                _cache.Remove(DigitalAssetsCacheKeyFactory.Get(request.TenantId));
                 return new Response() { };
             }
 

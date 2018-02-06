@@ -41,7 +41,6 @@ namespace AspNetCoreGettingStarted
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             AspNetCoreGettingStarted.Configuration.Options.LoadConfigurationOptions(services, Configuration);
-
             
             services.AddDbContextPool<AspNetCoreGettingStartedContext>(options =>
             {

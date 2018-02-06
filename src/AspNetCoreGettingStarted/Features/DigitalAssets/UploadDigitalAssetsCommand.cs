@@ -27,10 +27,15 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
         {
             private static readonly FormOptions _defaultFormOptions = new FormOptions();
             private readonly IHttpContextAccessor _httpContextAccessor;
-            public Handler(IAspNetCoreGettingStartedContext context, IHttpContextAccessor httpContextAccessor)
+            private HttpContext _httpContext { get { return _httpContextAccessor.HttpContext; } }
+            private IAspNetCoreGettingStartedContext _context;
+            private ICache _cache;
+
+            public Handler(ICache cache, IAspNetCoreGettingStartedContext context, IHttpContextAccessor httpContextAccessor)
             {
                 _httpContextAccessor = httpContextAccessor;
                 _context = context;
+                _cache = cache;
             }
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
@@ -78,12 +83,10 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
                     section = await reader.ReadNextSectionAsync();
                 }
 
-                return new Response() {};
-            }
-            
-            private HttpContext _httpContext {  get { return _httpContextAccessor.HttpContext; } }
+                _cache.Remove(DigitalAssetsCacheKeyFactory.Get(request.TenantId));
 
-            private IAspNetCoreGettingStartedContext _context;
+                return new Response() {};
+            }            
         }
     }
 }

@@ -11,7 +11,7 @@ declare var moment;
 export class DigitalAssetItemComponent { 
 
     ngOnInit() {
-        alert(JSON.stringify(this.digitalAsset));
+
     }
 
     @Output()

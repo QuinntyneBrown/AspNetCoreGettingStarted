@@ -38,6 +38,8 @@ export class LoginMasterPageComponent {
         this._client.post(`${this._baseUrl}/api/users/signin`, $event.value, { headers })
             .takeUntil(this._ngUnsubscribe)
             .do(response => this._storage.put({ name: constants.ACCESS_TOKEN_KEY, value: response["accessToken"] }))
+            .switchMap(() => this._client.get(`${this._baseUrl}/api/users/current`))
+            .do(response => this._storage.put({ name: constants.CURRENT_USER_KEY, value: response["user"] }))
             .do(() => this._loginRedirectService.redirectPreLogin())
             .subscribe();
     }

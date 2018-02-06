@@ -1,5 +1,6 @@
 ﻿using AspNetCoreGettingStarted.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -43,6 +44,20 @@ namespace AspNetCoreGettingStarted.Data
                 b.Property(t => t.TenantId)
                 .HasDefaultValueSql("newsequentialid()");
             });
+
+            modelBuilder.Entity<DigitalAsset>().HasQueryFilter(d => !d.IsDeleted);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            ChangeTracker.DetectChanges();
+            foreach(var item in ChangeTracker.Entries().Where( e => e.State == EntityState.Deleted))
+            {
+                item.State = EntityState.Modified;
+                item.CurrentValues["IsDeleted"] = true;
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

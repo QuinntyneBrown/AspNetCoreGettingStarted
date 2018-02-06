@@ -5,6 +5,8 @@ using AspNetCoreGettingStarted.Features.Core;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System;
+using AspNetCoreGettingStarted.Model;
+using System.Linq;
 
 namespace AspNetCoreGettingStarted.Features.DigitalAssets
 {
@@ -27,11 +29,21 @@ namespace AspNetCoreGettingStarted.Features.DigitalAssets
 
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                var digitalAsset = await _context.DigitalAssets
-                    .Include(x => x.Tenant)
-                    .SingleAsync(x => x.DigitalAssetId == request.Id && x.Tenant.TenantId == request.TenantId);
+                DigitalAsset digitalAsset = default(DigitalAsset);
 
-                digitalAsset.IsDeleted = true;
+                var s = _context.DigitalAssets.ToList();
+
+                try
+                {
+                    digitalAsset = await _context.DigitalAssets
+                        .Include(x => x.Tenant)
+                        .SingleAsync(x => x.DigitalAssetId == request.Id && x.Tenant.TenantId == request.TenantId);
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
+                _context.DigitalAssets.Remove(digitalAsset);
 
                 await _context.SaveChangesAsync(cancellationToken);
 

@@ -34,15 +34,18 @@ export class DigitalAssetListPageComponent {
         this._digitalAssetsService.remove({ digitalAsset: $event.digitalAsset })
             .takeUntil(this._ngUnsubscribe)
             .subscribe();
-
-        pluckOut({ items: this.digitalAssets, value: $event.digitalAsset.id });
+        
+        pluckOut({
+            items: this.digitalAssets,
+            value: $event.digitalAsset.digitalAssetId,
+            key: "digitalAssetId"
+        });
     }
 
     public ngOnInit() {
         this._digitalAssetsService.get()
             .takeUntil(this._ngUnsubscribe)
             .subscribe((data) => {
-                alert(JSON.stringify(data.digitalAssets.map((x:any) => x.fileName)));
                 this.digitalAssets = data.digitalAssets;
             });
     }

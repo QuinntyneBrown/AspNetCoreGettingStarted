@@ -31,7 +31,9 @@ export class DigitalAssetsService {
             .get<{digitalAsset: DigitalAsset}>(`${this._baseUrl}/api/digitalassets/getById?id=${options.id}`);
     }
 
-    public remove(options: { digitalAsset: Partial<DigitalAsset>}) {
+    public remove(options: { digitalAsset: Partial<DigitalAsset> }) {
+        console.log(`${this._baseUrl}/api/digitalassets/remove?id=${options.digitalAsset.digitalAssetId}`);
+
         return this._httpClient
             .delete(`${this._baseUrl}/api/digitalassets/remove?id=${options.digitalAsset.digitalAssetId}`);
     }
