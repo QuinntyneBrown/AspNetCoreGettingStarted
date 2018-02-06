@@ -1,4 +1,12 @@
 :host {
-    display:block;
-    content:contain;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgb(6,103,208);
+    color:#fff;
+}
+
+h1 {
+    margin:0px 0px 0px 20px;
+    padding:0;
 }

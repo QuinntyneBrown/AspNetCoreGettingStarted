@@ -1,4 +1,11 @@
 :host {
-    display:block;
-    content:contain;
+    display: grid;
+    grid-template-rows: 70px 1fr;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+div {
+    background-color:rgb(241,241,241);
 }

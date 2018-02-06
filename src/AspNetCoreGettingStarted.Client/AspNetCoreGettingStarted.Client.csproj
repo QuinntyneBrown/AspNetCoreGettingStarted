@@ -35,6 +35,42 @@
     <None Update="src\app\app.component.ts">
       <DependentUpon>app.component.html</DependentUpon>
     </None>
+    <None Update="src\app\dashboard-tiles\configure-dashboard-tile-modal.component.css">
+      <DependentUpon>configure-dashboard-tile-modal.component.ts</DependentUpon>
+    </None>
+    <None Update="src\app\dashboard-tiles\dashboard-tile-header.component.css">
+      <DependentUpon>dashboard-tile-header.component.ts</DependentUpon>
+    </None>
+    <None Update="src\app\dashboard-tiles\dashboard-tile-menu.component.css">
+      <DependentUpon>dashboard-tile-menu.component.ts</DependentUpon>
+    </None>
+    <None Update="src\app\dashboard-tiles\digital-assets-dashboard-tile.component.css">
+      <DependentUpon>digital-assets-dashboard-tile.component.ts</DependentUpon>
+    </None>
+    <None Update="src\app\dashboard-tiles\home-page-dashboard-tile.component.css">
+      <DependentUpon>home-page-dashboard-tile.component.ts</DependentUpon>
+    </None>
+    <None Update="src\app\dashboard-tiles\products-dashboard-tile.component.css">
+      <DependentUpon>products-dashboard-tile.component.ts</DependentUpon>
+    </None>
+    <None Update="src\app\dashboards\dashboard-header.component.css">
+      <DependentUpon>dashboard-header.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\dashboards\dashboard-header.component.ts">
+      <DependentUpon>dashboard-header.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\dashboards\dashboard-master-page.component.css">
+      <DependentUpon>dashboard-master-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\dashboards\dashboard-master-page.component.ts">
+      <DependentUpon>dashboard-master-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\dashboards\dashboard-page.component.css">
+      <DependentUpon>dashboard-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\dashboards\dashboard-page.component.ts">
+      <DependentUpon>dashboard-page.component.html</DependentUpon>
+    </None>
     <None Update="src\app\digital-assets\digital-asset-edit-page.component.css">
       <DependentUpon>digital-asset-edit-page.component.html</DependentUpon>
     </None>
@@ -94,6 +130,12 @@
     </None>
     <None Update="src\app\tenants\set-tenant-master-page.component.ts">
       <DependentUpon>set-tenant-master-page.component.html</DependentUpon>
+    </None>
+    <None Update="src\app\tiles\tile-selection-item.component.css">
+      <DependentUpon>tile-selection-item.component.ts</DependentUpon>
+    </None>
+    <None Update="src\app\tiles\tile-selection-modal.component.css">
+      <DependentUpon>tile-selection-modal.component.ts</DependentUpon>
     </None>
   </ItemGroup>
 
